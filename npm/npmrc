@@ -1,0 +1,9 @@
+registry=https://registry.npmjs.org/
+@christoffercarlsson:registry=https://npm.pkg.github.com
+init-license=Unlicense
+init-version=0.1.0
+sign-git-commit=true
+sign-git-tag=true
+tag-version-prefix=
+//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}
+//npm.pkg.github.com/:_authToken=${NPM_AUTH_TOKEN_GITHUB}

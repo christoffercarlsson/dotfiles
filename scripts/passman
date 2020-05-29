@@ -1,0 +1,14 @@
+#!/usr/bin/python -O
+import base64, getpass, hashlib
+
+account = raw_input('Account: ').strip()
+password = getpass.getpass('Password: ')
+
+value = account + '/' + password
+
+for i in range(2 ** 16):
+  value = hashlib.sha256(value).digest()
+
+result = base64.b64encode(value).strip('=')
+
+print(result[:24])

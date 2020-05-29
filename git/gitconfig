@@ -1,0 +1,21 @@
+[commit]
+	gpgsign = true
+[core]
+	excludesfile = ~/.gitignore
+	attributesfile = ~/.gitattributes
+[diff]
+	tool = vimdiff
+[difftool]
+	prompt = false
+[help]
+	autocorrect = 1
+[include]
+	path = ~/.gitconfig.local
+[push]
+	followTags = true
+[tag]
+	gpgsign = true
+[pull]
+	rebase = false
+[init]
+	defaultBranch = main
