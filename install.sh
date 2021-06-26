@@ -157,7 +157,7 @@ setup_gpg_ssh() {
   fi
   copy_path "gpg/gpg-agent.conf" ".gnupg/gpg-agent.conf"
   echo "pinentry-program $(brew --prefix)/bin/pinentry-mac" >> "${HOME}/.gnupg/gpg-agent.conf"
-  cat "${DOTFILES_DIRECTORY}/gpg/gpg-profile.bash" >> "${HOME}/.bash_profile.local"
+  cat "${DOTFILES_DIRECTORY}/gpg/gpg-profile.bash" >> "${HOME}/.bash_profile_local"
 }
 
 setup_vscodium() {
