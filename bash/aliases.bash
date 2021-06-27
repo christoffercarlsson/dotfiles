@@ -13,3 +13,6 @@ alias ls="ls ${colorflag}"
 
 # List directory contents in long format.
 alias la="ls -lA ${colorflag}"
+
+# Favor VSCodium over regular Visual Studio Code
+alias code="codium"
