@@ -30,5 +30,6 @@
   "workbench.preferredDarkColorTheme": "One Dark Pro",
   "workbench.preferredHighContrastColorTheme": "One Dark Pro",
   "workbench.startupEditor": "newUntitledFile",
-  "workbench.tips.enabled": false
+  "workbench.tips.enabled": false,
+  "security.workspace.trust.untrustedFiles": "open"
 }

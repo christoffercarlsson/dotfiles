@@ -151,17 +151,28 @@ install_apps() {
 }
 
 setup_gpg_ssh() {
-  if ! [[ -d "${HOME}/.gnupg" ]]
+  local gnupg_home="${HOME}/.gnupg"
+  if ! [[ -d ${gnupg_home} ]]
   then
-    mkdir "${HOME}/.gnupg"
+    mkdir ${gnupg_home}
   fi
   copy_path "gpg/gpg-agent.conf" ".gnupg/gpg-agent.conf"
-  echo "pinentry-program $(brew --prefix)/bin/pinentry-mac" >> "${HOME}/.gnupg/gpg-agent.conf"
+  echo "pinentry-program $(brew --prefix)/bin/pinentry-mac" >> "${gnupg_home}/gpg-agent.conf"
   cat "${DOTFILES_DIRECTORY}/gpg/gpg-profile.bash" >> "${HOME}/.bash_profile_local"
 }
 
 setup_vscodium() {
+  local settings_dir="${HOME}/Library/Application Support/VSCodium/User"
+  if ! [[ -d $settings_dir ]]
+  then
+    mkdir -p $settings_dir
+  fi
   mirror_path "vscodium/settings.json" "Library/Application Support/VSCodium/User/settings.json"
+  mirror_path "vscodium/eslintrc.json" ".eslintrc.json"
+  mirror_path "vscodium/prettierrc.json" ".prettierrc.json"
+  npm install -g eslint prettier @christoffercarlsson/eslint-config @christoffercarlsson/prettier-config &> /dev/null
+  codium --install-extension dbaeumer.vscode-eslint &> /dev/null
+  codium --install-extension esbenp.prettier-vscode &> /dev/null
 }
 
 setup_macos() {
@@ -193,11 +204,11 @@ install_dotfiles() {
   check_os_requirements
   check_existing_dotfiles
   download_dotfiles
+  setup_config
   if is_macos
   then
     setup_macos
   fi
-  setup_config
   e_header "Dotfiles has been successfully installed! You may need to restart your system."
 }
 
