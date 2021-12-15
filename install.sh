@@ -161,25 +161,10 @@ setup_gpg_ssh() {
   cat "${DOTFILES_DIRECTORY}/gpg/gpg-profile.bash" >> "${HOME}/.bash_profile_local"
 }
 
-setup_vscodium() {
-  local settings_dir="${HOME}/Library/Application Support/VSCodium/User"
-  if ! [[ -d $settings_dir ]]
-  then
-    mkdir -p $settings_dir
-  fi
-  mirror_path "vscodium/settings.json" "Library/Application Support/VSCodium/User/settings.json"
-  mirror_path "vscodium/eslintrc.json" ".eslintrc.json"
-  mirror_path "vscodium/prettierrc.json" ".prettierrc.json"
-  npm install -g eslint prettier @christoffercarlsson/eslint-config @christoffercarlsson/prettier-config &> /dev/null
-  codium --install-extension dbaeumer.vscode-eslint &> /dev/null
-  codium --install-extension esbenp.prettier-vscode &> /dev/null
-}
-
 setup_macos() {
   update_homebrew
   install_apps
   setup_gpg_ssh
-  setup_vscodium
 }
 
 download_dotfiles() {
