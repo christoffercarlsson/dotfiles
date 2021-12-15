@@ -50,15 +50,6 @@ cmd_exists() {
 }
 
 check_os_requirements() {
-  if is_macos 
-  then
-    # Add Homebrew's executable directory to the front of the PATH.
-    PATH="/usr/local/bin:/opt/homebrew/bin:${PATH}"
-    if ! cmd_exists "brew"
-    then
-      abort "This script requires Homebrew to be installed."
-    fi
-  fi
   if ! cmd_exists "git"
   then
     abort "This script requires Git to be installed."
@@ -82,7 +73,7 @@ copy_path() {
 }
 
 mirror_path() {
-  ln -Fhfs "${DOTFILES_DIRECTORY}/${1}" "${HOME}/${2}"
+  ln -hfs "${DOTFILES_DIRECTORY}/${1}" "${HOME}/${2}"
 }
 
 # Bash configuration
@@ -144,8 +135,8 @@ update_homebrew() {
 }
 
 install_apps() {
-  e_header "Installing apps (your password may be required)..."
-  mirror_path "macos/Brewfile" ".Brewfile"
+  e_header "Installing apps..."
+  mirror_path "homebrew/Brewfile" ".Brewfile"
   brew bundle install --global --cleanup --no-lock &> /dev/null
   e_done
 }
@@ -161,10 +152,18 @@ setup_gpg_ssh() {
   cat "${DOTFILES_DIRECTORY}/gpg/gpg-profile.bash" >> "${HOME}/.bash_profile_local"
 }
 
-setup_macos() {
-  update_homebrew
-  install_apps
-  setup_gpg_ssh
+setup_apps() {
+  if is_macos
+  then
+    # Add Homebrew's executable directory to the front of the PATH.
+    PATH="/usr/local/bin:/opt/homebrew/bin:${PATH}"
+  fi
+  if cmd_exists "brew"
+  then
+    update_homebrew
+    install_apps
+    setup_gpg_ssh
+  fi
 }
 
 download_dotfiles() {
@@ -190,10 +189,7 @@ install_dotfiles() {
   check_existing_dotfiles
   download_dotfiles
   setup_config
-  if is_macos
-  then
-    setup_macos
-  fi
+  setup_apps
   e_header "Dotfiles has been successfully installed! You may need to restart your system."
 }
 
