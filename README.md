@@ -1,6 +1,6 @@
-# macOS dotfiles
+# dotfiles
 
-Configuration files and scripts for my development environment on macOS.
+Configuration files and scripts for my development environment on macOS & Linux.
 
 ## How to install
 
