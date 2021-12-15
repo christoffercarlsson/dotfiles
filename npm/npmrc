@@ -1,5 +1,4 @@
 registry=https://registry.npmjs.org/
-@christoffercarlsson:registry=https://npm.pkg.github.com
 init-license=Unlicense
 init-version=0.0.0
 sign-git-commit=true
