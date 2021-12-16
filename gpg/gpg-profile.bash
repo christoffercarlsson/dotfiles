@@ -1,2 +1,3 @@
-export SSH_AUTH_SOCK="${HOME}/.gnupg/S.gpg-agent.ssh"
+export GPG_TTY=$(tty)
+export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 gpgconf --launch gpg-agent

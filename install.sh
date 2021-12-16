@@ -146,14 +146,20 @@ install_apps() {
 }
 
 setup_gpg_ssh() {
-  local gnupg_home="${HOME}/.gnupg"
-  if ! [[ -d ${gnupg_home} ]]
+  local pinentry_program=""
+  if is_linux
   then
-    mkdir ${gnupg_home}
+    pinentry_program="$(command -v pinentry-gnome3)"
+  elif is_macos
+  then
+    pinentry_program="$(brew --prefix)/bin/pinentry-mac"
   fi
-  copy_path "gpg/gpg-agent.conf" ".gnupg/gpg-agent.conf"
-  echo "pinentry-program $(brew --prefix)/bin/pinentry-mac" >> "${gnupg_home}/gpg-agent.conf"
-  cat "${DOTFILES_DIRECTORY}/gpg/gpg-profile.bash" >> "${HOME}/.bash_profile_local"
+  if [[ -n "${pinentry_program}" ]]
+  then
+    copy_path "gpg/gpg-agent.conf" ".gnupg/gpg-agent.conf"
+    echo "pinentry-program ${pinentry_program}" >> "${HOME}/.gnupg/gpg-agent.conf"
+    cat "${DOTFILES_DIRECTORY}/gpg/gpg-profile.bash" >> "${HOME}/.bash_profile_local"
+  fi
 }
 
 setup_apps() {
@@ -161,8 +167,7 @@ setup_apps() {
   if is_macos
   then
     PATH="/usr/local/bin:/opt/homebrew/bin:${PATH}"
-  fi
-  if is_linux
+  elif is_linux
   then
     PATH="/home/linuxbrew/.linuxbrew/bin:${PATH}"
   fi
