@@ -73,7 +73,7 @@ copy_path() {
 }
 
 mirror_path() {
-  ln -hfs "${DOTFILES_DIRECTORY}/${1}" "${HOME}/${2}"
+  ln -nfs "${DOTFILES_DIRECTORY}/${1}" "${HOME}/${2}"
 }
 
 # Bash configuration
