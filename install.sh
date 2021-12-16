@@ -45,6 +45,10 @@ is_macos() {
   [[ "${OS}" == "Darwin" ]]
 }
 
+is_linux() {
+  [[ "${OS}" == "Linux" ]]
+}
+
 cmd_exists() {
   command -v $1 &> /dev/null
 }
@@ -153,10 +157,14 @@ setup_gpg_ssh() {
 }
 
 setup_apps() {
+  # Add Homebrew's executable directory to the front of the PATH.
   if is_macos
   then
-    # Add Homebrew's executable directory to the front of the PATH.
     PATH="/usr/local/bin:/opt/homebrew/bin:${PATH}"
+  fi
+  if is_linux
+  then
+    PATH="/home/linuxbrew/.linuxbrew/bin:${PATH}"
   fi
   if cmd_exists "brew"
   then

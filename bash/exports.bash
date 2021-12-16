@@ -1,5 +1,5 @@
-# Add ~/.bin to the front of the PATH.
-export PATH="${HOME}/.bin:/usr/local/bin:/opt/homebrew/bin:${PATH}"
+# Add ~/.bin and Homebrew's executable directory to the front of the PATH.
+export PATH="${HOME}/.bin:/usr/local/bin:/opt/homebrew/bin:/home/linuxbrew/.linuxbrew/bin:${PATH}"
 
 # Use Vim as the default editor.
 export EDITOR="vim"
@@ -25,6 +25,3 @@ export COLOR_BLUE=$(tput setaf 4)
 export COLOR_MAGENTA=$(tput setaf 5)
 export COLOR_CYAN=$(tput setaf 6)
 export COLOR_WHITE=$(tput setaf 7)
-
-# Needed for the GPG passphrase prompt to work.
-export GPG_TTY=$(tty)
