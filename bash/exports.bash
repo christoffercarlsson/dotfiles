@@ -1,5 +1,5 @@
-# Add ~/.bin and Homebrew's executable directory to the front of the PATH.
-export PATH="${HOME}/.bin:/usr/local/bin:/opt/homebrew/bin:/home/linuxbrew/.linuxbrew/bin:${PATH}"
+# Add ~/.bin to the front of the PATH.
+export PATH="${HOME}/.bin:${PATH}"
 
 # Use Vim as the default editor.
 export EDITOR="nvim"
