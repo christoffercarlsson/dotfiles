@@ -108,11 +108,6 @@ setup_git() {
   mirror_path "git/gitignore"     ".gitignore"
 }
 
-# Hyper configuration
-setup_hyper() {
-  mirror_path "hyper/hyper.js" ".hyper.js"
-}
-
 # NPM configuration
 setup_npm() {
   mirror_path "npm/npmrc" ".npmrc"
@@ -190,7 +185,6 @@ setup_config() {
   setup_bash
   setup_scripts
   setup_editorconfig
-  setup_hyper
   setup_npm
   setup_vim
   setup_git
