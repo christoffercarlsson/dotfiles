@@ -4,7 +4,7 @@ set_git_author() {
   local file="${HOME}/.gitconfig.local"
   read -p "Enter your name: " name
   read -p "Enter your email address: " email
-  read -p "Enter your signing key: " key
+  read -p "Enter your signing key ID: " key
   git config --file ${file} user.name "${name}"
   git config --file ${file} user.email "${email}"
   git config --file ${file} user.signingkey "${key}"

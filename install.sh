@@ -45,10 +45,6 @@ is_macos() {
   [[ "${OS}" == "Darwin" ]]
 }
 
-is_linux() {
-  [[ "${OS}" == "Linux" ]]
-}
-
 cmd_exists() {
   command -v $1 &> /dev/null
 }
@@ -72,6 +68,10 @@ check_existing_dotfiles() {
   fi
 }
 
+append_path() {
+  cat "${DOTFILES_DIRECTORY}/${1}" >> "${HOME}/${2}"
+}
+
 copy_path() {
   cp -fR "${DOTFILES_DIRECTORY}/${1}" "${HOME}/${2}"
 }
@@ -80,15 +80,18 @@ mirror_path() {
   ln -nfs "${DOTFILES_DIRECTORY}/${1}" "${HOME}/${2}"
 }
 
+run_script() {
+  source "${DOTFILES_DIRECTORY}/scripts/${1}"
+}
+
 # Bash configuration
 setup_bash() {
-  mirror_path "bash/aliases.bash"       ".bash_aliases"
-  mirror_path "bash/bashrc.bash"        ".bashrc"
-  mirror_path "bash/exports.bash"       ".bash_exports"
-  mirror_path "bash/options.bash"       ".bash_options"
-  mirror_path "bash/profile.bash"       ".bash_profile"
-  mirror_path "bash/prompt.bash"        ".bash_prompt"
-  copy_path   "bash/profile-local.bash" ".bash_profile_local"
+  mirror_path "bash/aliases.bash" ".bash_aliases"
+  mirror_path "bash/bashrc.bash"  ".bashrc"
+  mirror_path "bash/exports.bash" ".bash_exports"
+  mirror_path "bash/options.bash" ".bash_options"
+  mirror_path "bash/prompt.bash"  ".bash_prompt"
+  append_path "bash/profile.bash" ".bash_profile"
 }
 
 # EditorConfig
@@ -108,21 +111,16 @@ setup_git() {
   mirror_path "git/gitignore"     ".gitignore"
 }
 
+# GnuPG configuration
+setup_gpg() {
+  append_path "gpg/gpg-profile.bash" ".bash_profile"
+  copy_path "gpg/gpg-agent.conf" ".gnupg/gpg-agent.conf"
+  echo "pinentry-program $(command -v pinentry)" >> "${HOME}/.gnupg/gpg-agent.conf"
+}
+
 # NPM configuration
 setup_npm() {
   mirror_path "npm/npmrc" ".npmrc"
-}
-
-# Vim configuration
-setup_vim() {
-  if ! [[ -d "${HOME}/.vim" ]]
-  then
-    mkdir "${HOME}/.vim"
-  fi
-  mirror_path "vim/bundle"         ".vim/bundle"
-  mirror_path "vim/gvimrc.vim"     ".gvimrc"
-  mirror_path "vim/nerdtreeignore" ".nerdtreeignore"
-  mirror_path "vim/vimrc.vim"      ".vimrc"
 }
 
 update_homebrew() {
@@ -136,41 +134,18 @@ update_homebrew() {
 install_apps() {
   e_header "Installing apps..."
   mirror_path "homebrew/Brewfile" ".Brewfile"
-  brew bundle install --global --cleanup --no-lock &> /dev/null
+  brew bundle install --global --cleanup --no-lock
   e_done
 }
 
-setup_gpg_ssh() {
-  local pinentry_program=""
-  if is_linux
-  then
-    pinentry_program="$(command -v pinentry-gnome3)"
-  elif is_macos
-  then
-    pinentry_program="$(brew --prefix)/bin/pinentry-mac"
-  fi
-  if [[ -n "${pinentry_program}" ]]
-  then
-    copy_path "gpg/gpg-agent.conf" ".gnupg/gpg-agent.conf"
-    echo "pinentry-program ${pinentry_program}" >> "${HOME}/.gnupg/gpg-agent.conf"
-    cat "${DOTFILES_DIRECTORY}/gpg/gpg-profile.bash" >> "${HOME}/.bash_profile_local"
-  fi
-}
-
 setup_apps() {
-  # Add Homebrew's executable directory to the front of the PATH.
-  if is_macos
-  then
-    PATH="/usr/local/bin:/opt/homebrew/bin:${PATH}"
-  elif is_linux
-  then
-    PATH="/home/linuxbrew/.linuxbrew/bin:${PATH}"
-  fi
   if cmd_exists "brew"
   then
     update_homebrew
-    install_apps
-    setup_gpg_ssh
+    if is_macos
+    then
+      install_apps
+    fi
   fi
 }
 
@@ -183,11 +158,11 @@ download_dotfiles() {
 setup_config() {
   e_header "Configuring dotfiles..."
   setup_bash
-  setup_scripts
   setup_editorconfig
-  setup_npm
-  setup_vim
   setup_git
+  setup_gpg
+  setup_npm
+  setup_scripts
   e_done
 }
 
@@ -197,7 +172,9 @@ install_dotfiles() {
   download_dotfiles
   setup_config
   setup_apps
-  e_header "Dotfiles has been successfully installed! You may need to restart your system."
+  run_script "set-git-author"
+  e_success "Dotfiles has been successfully installed!"
+  e_header "You may need to restart your system for the changes to take effect."
 }
 
 install_dotfiles

@@ -1,2 +1,0 @@
-export NPM_AUTH_TOKEN=""
-export NPM_AUTH_TOKEN_GITHUB=""
