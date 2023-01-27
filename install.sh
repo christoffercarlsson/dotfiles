@@ -2,11 +2,12 @@
 
 DOTFILES_DIRECTORY="${HOME}/.dotfiles"
 DOTFILES_REMOTE="https://github.com/christoffercarlsson/dotfiles.git"
+DOTFILES_REMOTE_SSH="git@github.com:christoffercarlsson/dotfiles.git"
 
 OS="$(uname)"
 
 e_header() {
-  printf "\n%s\n\n" "$@"
+  printf "\n%s\n" "$@"
 }
 
 e_error() {
@@ -91,7 +92,7 @@ setup_bash() {
   mirror_path "bash/exports.bash" ".bash_exports"
   mirror_path "bash/options.bash" ".bash_options"
   mirror_path "bash/prompt.bash"  ".bash_prompt"
-  append_path "bash/profile.bash" ".bash_profile"
+  append_path "bash/profile.bash"  ".bash_profile"
 }
 
 # EditorConfig
@@ -107,20 +108,27 @@ setup_scripts() {
 # Git configuration
 setup_git() {
   mirror_path "git/gitattributes" ".gitattributes"
-  mirror_path "git/gitconfig"     ".gitconfig"
+  mirror_path "git/gitconfig"      ".gitconfig"
   mirror_path "git/gitignore"     ".gitignore"
 }
 
 # GnuPG configuration
 setup_gpg() {
   append_path "gpg/gpg-profile.bash" ".bash_profile"
-  copy_path "gpg/gpg-agent.conf" ".gnupg/gpg-agent.conf"
+  copy_path   "gpg/gpg-agent.conf"  ".gnupg/gpg-agent.conf"
   echo "pinentry-program $(command -v pinentry)" >> "${HOME}/.gnupg/gpg-agent.conf"
 }
 
 # NPM configuration
 setup_npm() {
   mirror_path "npm/npmrc" ".npmrc"
+}
+
+# iTerm2 configuration
+setup_iterm2() {
+  local profiles_path="Library/Application Support/iTerm2/DynamicProfiles"
+  mkdir -p "${HOME}/${profiles_path}"
+  mirror_path "iterm2/profiles.json" "${profiles_path}/profiles.json"
 }
 
 update_homebrew() {
@@ -145,6 +153,7 @@ setup_apps() {
     if is_macos
     then
       install_apps
+      setup_iterm2
     fi
   fi
 }
@@ -179,7 +188,7 @@ install_nvm() {
 }
 
 update_git_remote_url() {
-  (cd ${DOTFILES_DIRECTORY}; git remote set-url origin git@github.com:christoffercarlsson/dotfiles.git)
+  (cd ${DOTFILES_DIRECTORY}; git remote set-url origin ${DOTFILES_REMOTE_SSH})
 }
 
 install_dotfiles() {
