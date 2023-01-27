@@ -81,8 +81,13 @@ mirror_path() {
   ln -nfs "${DOTFILES_DIRECTORY}/${1}" "${HOME}/${2}"
 }
 
-run_script() {
-  source "${DOTFILES_DIRECTORY}/scripts/${1}"
+install_homebrew() {
+  if is_macos
+  then
+    e_header "Installing Homebrew..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    e_done
+  fi
 }
 
 # Bash configuration
@@ -92,6 +97,7 @@ setup_bash() {
   mirror_path "bash/options.bash" ".bash_options"
   mirror_path "bash/prompt.bash"  ".bash_prompt"
   copy_path   "bash/profile.bash" ".bash_profile"
+  source "${HOME}/.bash_profile"
 }
 
 # EditorConfig
@@ -190,6 +196,7 @@ update_git_remote_url() {
 
 install_dotfiles() {
   check_os_requirements
+  install_homebrew
   check_existing_dotfiles
   download_dotfiles
   setup_config
