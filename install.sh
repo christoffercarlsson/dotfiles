@@ -167,7 +167,15 @@ setup_config() {
 }
 
 install_starship() {
+  e_header "Installing Starship..."
   curl -sS https://starship.rs/install.sh | sh
+  e_done
+}
+
+install_nvm() {
+  e_header "Installing NVM..."
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+  e_done
 }
 
 install_dotfiles() {
@@ -177,6 +185,7 @@ install_dotfiles() {
   setup_config
   setup_apps
   install_starship
+  install_nvm
   e_success "Dotfiles has been successfully installed!"
   e_header "Reboot your system for the changes to take effect."
 }
