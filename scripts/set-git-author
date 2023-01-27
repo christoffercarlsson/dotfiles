@@ -1,12 +1,23 @@
 #!/usr/bin/env bash
 
+# Fetch the key ID that's assocatied with the given email address from a keyserver.
+get_gpg_keyid_by_email() {
+  gpg --with-colons --auto-key-locate keyserver --locate-keys "$1" 2> /dev/null | awk -F: '$1 == "fpr" {print $10;}' | head -n1
+}
+
 set_git_author() {
   local file="${HOME}/.gitconfig.local"
   read -p "Enter your name: " name
   read -p "Enter your email address: " email
-  read -p "Enter your signing key ID: " key
   git config --file ${file} user.name "${name}"
   git config --file ${file} user.email "${email}"
+  local key=$(get_gpg_keyid_by_email ${email})
+  if [[ -z "$key" ]]
+  then
+    echo -e "\nCould not find your PGP public key on a keyserver."
+    echo -e "Please import your public key manually and then enter your key ID\nusing the following command (replace <KEY-ID> with your key ID): "
+    echo -e "\ngit config --file ${file} user.signingkey \"<KEY-ID>\""
+  fi
   git config --file ${file} user.signingkey "${key}"
 }
 

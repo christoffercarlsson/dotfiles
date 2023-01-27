@@ -6,11 +6,13 @@ Configuration files and scripts for my development environment on macOS & Linux.
 
 Open a terminal and run the commands below.
 
-### Step 1 - Install Homebrew
+### Step 1 - Install Homebrew (macOS only)
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
+
+Once the Homebrew installation is done, follow the given *Next steps* instructions.
 
 ### Step 2 - Install dotfiles
 
@@ -20,25 +22,21 @@ Open a terminal and run the commands below.
 
 **Warning:** Running the command above may overwrite your existing configuration files.
 
-### Step 3 - Restart your system
+### Step 3 - Reboot your system
 
-After you've run the commands listed above, you may need to restart your system before all changes takes effect.
+After you've run the commands listed above, reboot your system for all changes takes effect.
 
-## Checklist for setting up a new Mac
+### Step 4 - Enter your Git credentials
 
-1. Set up basic system preferences:
+Once you've restarted your system, open a terminal and run the following command to configure your Git credentials:
 
-   - Enable tap to click.
-   - Automatically hide and show the Dock and the menu bar.
-   - Minimize windows using Scale effect.
-   - Minimize windows into app icon.
-   - Do not show recent apps in the Dock.
-   - Configure Spotlight.
-   - Turn on the firewall.
-   - Set a sensible hostname.
-   - Enable automatic updates.
-   - Configure Safari.
-   - Add US keyboard.
+```bash
+set-git-author
+```
 
-2. Sign in to the Mac App Store and install apps.
-3. Install these dotfiles.
+Enter the name and email address that you want to associate your Git commits with. The script will then attempt to import your PGP public key from a keyserver automatically based on your email address (if your public key is not found on a keyserver you'll need to import it manually).
+
+
+## License
+
+These dotfiles are licensed under [The Unlicense](./LICENSE).

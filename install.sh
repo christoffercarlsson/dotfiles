@@ -172,7 +172,6 @@ install_dotfiles() {
   download_dotfiles
   setup_config
   setup_apps
-  run_script "set-git-author"
   e_success "Dotfiles has been successfully installed!"
   e_header "You may need to restart your system for the changes to take effect."
 }
