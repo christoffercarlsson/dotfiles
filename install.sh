@@ -126,9 +126,7 @@ setup_npm() {
 
 # iTerm2 configuration
 setup_iterm2() {
-  local profiles_path="Library/Application Support/iTerm2/DynamicProfiles"
-  mkdir -p "${HOME}/${profiles_path}"
-  mirror_path "iterm2/profiles.json" "${profiles_path}/profiles.json"
+  copy_path "iterm2/com.googlecode.iterm2.plist" "Library/Preferences/com.googlecode.iterm2.plist"
 }
 
 update_homebrew() {
@@ -200,7 +198,7 @@ install_dotfiles() {
   install_starship
   install_nvm
   update_git_remote_url
-  e_success "Dotfiles has been successfully installed!\nRestart your terminal for the changes to take effect."
+  e_success "Restart your terminal for the changes to take effect"
 }
 
 install_dotfiles
