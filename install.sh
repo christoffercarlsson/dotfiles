@@ -200,7 +200,7 @@ install_dotfiles() {
   install_starship
   install_nvm
   update_git_remote_url
-  e_success "Dotfiles has been successfully installed! Restart your terminal for the changes to take effect."
+  e_success "Dotfiles has been successfully installed!\nRestart your terminal for the changes to take effect."
 }
 
 install_dotfiles
