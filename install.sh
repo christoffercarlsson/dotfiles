@@ -166,14 +166,19 @@ setup_config() {
   e_done
 }
 
+install_starship() {
+  curl -sS https://starship.rs/install.sh | sh
+}
+
 install_dotfiles() {
   check_os_requirements
   check_existing_dotfiles
   download_dotfiles
   setup_config
   setup_apps
+  install_starship
   e_success "Dotfiles has been successfully installed!"
-  e_header "You may need to restart your system for the changes to take effect."
+  e_header "Reboot your system for the changes to take effect."
 }
 
 install_dotfiles
