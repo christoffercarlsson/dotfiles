@@ -87,7 +87,7 @@ run_script() {
 # Bash configuration
 setup_bash() {
   mirror_path "bash/aliases.bash" ".bash_aliases"
-  mirror_path "bash/bashrc.bash"  ".bashrc"
+  append_path "bash/bashrc.bash"  ".bashrc"
   mirror_path "bash/exports.bash" ".bash_exports"
   mirror_path "bash/options.bash" ".bash_options"
   mirror_path "bash/prompt.bash"  ".bash_prompt"

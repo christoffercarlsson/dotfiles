@@ -8,11 +8,15 @@ Open a terminal and run the commands below.
 
 ### Step 1 - Install Homebrew (macOS only)
 
+[Homebrew](https://brew.sh) is an easy and flexible way to install the UNIX tools Apple didn’t include with macOS.
+
+Install Homebrew by running the following command:
+
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-Once the Homebrew installation is done, follow the given *Next steps* instructions.
+Once the installation is done, follow the given *Next steps* instructions.
 
 ### Step 2 - Install dotfiles
 
@@ -36,6 +40,15 @@ set-git-author
 
 Enter the name and email address that you want to associate your Git commits with. The script will then attempt to import your PGP public key from a keyserver automatically based on your email address (if your public key is not found on a keyserver you'll need to import it manually).
 
+### Step 5 - Install Node Version Manager (optional)
+
+The [Node Version Manager](https://github.com/nvm-sh/nvm) (NVM) allows you to quickly install and use different versions of [Node.js](https://nodejs.org) via the command line.
+
+Install the latest version of NVM by running the following command:
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/HEAD/install.sh | bash
+```
 
 ## License
 
