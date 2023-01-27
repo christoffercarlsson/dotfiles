@@ -179,7 +179,7 @@ install_nvm() {
 }
 
 update_git_remote_url() {
-  git remote set-url origin git@github.com:christoffercarlsson/dotfiles.git
+  (cd ${DOTFILES_DIRECTORY}; git remote set-url origin git@github.com:christoffercarlsson/dotfiles.git)
 }
 
 install_dotfiles() {
