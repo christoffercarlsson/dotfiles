@@ -32,7 +32,7 @@ After you've run the commands listed above, reboot your system for all changes t
 
 ### Step 4 - Enter your Git credentials
 
-Once you've restarted your system, open a terminal and run the following command to configure your Git credentials:
+Once you've rebooted your system, open a terminal and run the following command to configure your Git credentials:
 
 ```bash
 set-git-author

@@ -178,6 +178,10 @@ install_nvm() {
   e_done
 }
 
+update_git_remote_url() {
+  git remote set-url origin git@github.com:christoffercarlsson/dotfiles.git
+}
+
 install_dotfiles() {
   check_os_requirements
   check_existing_dotfiles
@@ -186,6 +190,7 @@ install_dotfiles() {
   setup_apps
   install_starship
   install_nvm
+  update_git_remote_url
   e_success "Dotfiles has been successfully installed!"
   e_header "Reboot your system for the changes to take effect."
 }
