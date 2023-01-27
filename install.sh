@@ -6,15 +6,15 @@ DOTFILES_REMOTE="https://github.com/christoffercarlsson/dotfiles.git"
 OS="$(uname)"
 
 e_header() {
-  printf "\n%s\n" "$@"
+  printf "\n%s\n\n" "$@"
 }
 
 e_error() {
-  printf "$(tput setaf 1)Error:$(tput sgr0) %s\n" "$@"
+  printf "$(tput setaf 1)Error:$(tput sgr0) %s\n\n" "$@"
 }
 
 e_success() {
-  printf "$(tput setaf 2)✓$(tput sgr0) %s\n" "$@"
+  printf "$(tput setaf 2)✓$(tput sgr0) %s\n\n" "$@"
 }
 
 e_done() {
@@ -22,7 +22,7 @@ e_done() {
 }
 
 e_warning() {
-  printf "$(tput setaf 3)Warning:$(tput sgr0) %s\n" "$@"
+  printf "$(tput setaf 3)Warning:$(tput sgr0) %s\n\n" "$@"
 }
 
 abort() {
@@ -191,8 +191,7 @@ install_dotfiles() {
   install_starship
   install_nvm
   update_git_remote_url
-  e_success "Dotfiles has been successfully installed!"
-  e_header "Reboot your system for the changes to take effect."
+  e_success "Dotfiles has been successfully installed! Restart your terminal for the changes to take effect."
 }
 
 install_dotfiles

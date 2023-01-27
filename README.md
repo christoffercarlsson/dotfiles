@@ -26,13 +26,13 @@ Once the installation is done, follow the given *Next steps* instructions.
 
 **Warning:** Running the command above may overwrite your existing configuration files.
 
-### Step 3 - Reboot your system
+### Step 3 - Restart your terminal
 
-After you've run the commands listed above, reboot your system for all changes takes effect.
+After you've run the commands listed above, quit and re-open your terminal for all changes takes effect.
 
 ### Step 4 - Enter your Git credentials
 
-Once you've rebooted your system, open a terminal and run the following command to configure your Git credentials:
+Run the following command to configure your Git credentials:
 
 ```bash
 set-git-author
