@@ -17,7 +17,7 @@ files.
 
 ### Step 2 - Restart your terminal
 
-After you've run the commands listed above, quit and re-open your terminal for
+After you've run the command listed above, quit and re-open your terminal for
 all changes takes effect.
 
 ### Step 3 - Enter your Git credentials

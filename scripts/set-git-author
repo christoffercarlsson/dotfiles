@@ -15,7 +15,8 @@ set_git_author() {
   if [[ -z "$key" ]]
   then
     echo -e "\nCould not find your PGP public key on a keyserver."
-    echo -e "Please import your public key manually and then enter your key ID\nusing the following command (replace <KEY-ID> with your key ID): "
+    echo -e "Please import your public key manually and then enter your key ID"
+    echo -e "using the following command (replace <KEY-ID> with your key ID): "
     echo -e "\ngit config --file ${file} user.signingkey \"<KEY-ID>\""
   fi
   git config --file ${file} user.signingkey "${key}"

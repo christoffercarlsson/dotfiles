@@ -34,7 +34,7 @@ abort() {
 seek_confirmation() {
   printf "\n"
   e_warning "$@"
-  read -p "Continue? (y/n) " -n 1
+  read -p "Continue? (y/N) "
   printf "\n"
 }
 
@@ -196,8 +196,8 @@ update_git_remote_url() {
 
 install_dotfiles() {
   check_os_requirements
-  install_homebrew
   check_existing_dotfiles
+  install_homebrew
   download_dotfiles
   setup_config
   setup_apps
