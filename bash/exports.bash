@@ -2,7 +2,7 @@
 export PATH="${HOME}/.bin:/usr/local/bin:/opt/homebrew/bin:${PATH}"
 
 # Use Vim as the default editor.
-export EDITOR="nvim"
+export EDITOR="vim"
 
 # Use US English as the default language for internationalized programs.
 export LANG="en_US.UTF-8"

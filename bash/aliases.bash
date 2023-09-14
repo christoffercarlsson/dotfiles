@@ -14,3 +14,5 @@ alias ls="ls ${colorflag}"
 # List directory contents in long format.
 alias la="ls -lA ${colorflag}"
 
+# Prefer Neovim over Vim.
+alias vim="nvim"
