@@ -96,7 +96,7 @@ setup_bash() {
   mirror_path "bash/exports.bash" ".bash_exports"
   mirror_path "bash/options.bash" ".bash_options"
   mirror_path "bash/prompt.bash"  ".bash_prompt"
-  copy_path   "bash/profile.bash" ".bash_profile"
+  copy_path   "bash/profile.bash"  ".bash_profile"
   source "${HOME}/.bash_profile"
 }
 
@@ -127,6 +127,10 @@ setup_gpg() {
 # NPM configuration
 setup_npm() {
   mirror_path "npm/npmrc" ".npmrc"
+}
+
+setup_neovim() {
+  mirror_path "neovim" ".config/nvim"
 }
 
 # iTerm2 configuration
@@ -175,6 +179,7 @@ setup_config() {
   setup_gpg
   setup_npm
   setup_scripts
+  setup_neovim
   e_done
 }
 
