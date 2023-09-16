@@ -1,4 +1,5 @@
 local M = {}
+
 local fn = vim.fn
 
 M.echo = function(str)

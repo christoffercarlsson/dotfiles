@@ -96,7 +96,7 @@ setup_bash() {
   mirror_path "bash/exports.bash" ".bash_exports"
   mirror_path "bash/options.bash" ".bash_options"
   mirror_path "bash/prompt.bash"  ".bash_prompt"
-  copy_path   "bash/profile.bash"  ".bash_profile"
+  copy_path   "bash/profile.bash" ".bash_profile"
   source "${HOME}/.bash_profile"
 }
 
