@@ -167,5 +167,9 @@ local plugins = {
       require("rust-tools").setup(opts)
     end
   },
+  {
+    "github/copilot.vim",
+    event = "VeryLazy"
+  }
 }
 return plugins
