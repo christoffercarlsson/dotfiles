@@ -1,4 +1,6 @@
 local overriden_modules = function(modules)
+  modules[1] = string.gsub(modules[1], "  ", " ")
+  modules[1] = string.sub(modules[1], 1, -20)
   table.remove(modules, 3)
   table.remove(modules, 4)
   table.remove(modules)

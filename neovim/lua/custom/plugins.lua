@@ -107,8 +107,9 @@ local plugins = {
   {
     "nvim-tree/nvim-tree.lua",
     opts = {
+      disable_netrw = true,
       filters = {
-        custom = { "^\\.git$" }
+        custom = { "^\\.git$", "^\\.DS_Store$" }
       },
       renderer = {
         special_files = {},

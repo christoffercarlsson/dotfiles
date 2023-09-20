@@ -4,6 +4,7 @@ vim.api.nvim_create_autocmd("FileType", {
   once = true,
   callback = function()
     vim.cmd("highlight clear NvimTreeExecFile")
+    vim.cmd("highlight clear NvimTreeImageFile")
     vim.cmd("highlight link ScrollView St_file_info")
   end
 })
