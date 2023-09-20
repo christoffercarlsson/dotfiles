@@ -1,3 +1,5 @@
+<img align="center" src="./screenshot.png" />
+
 # dotfiles
 
 Configuration files and scripts for my development environment on macOS & Linux.
