@@ -174,7 +174,7 @@ local plugins = {
   },
   {
     "github/copilot.vim",
-    event = "VeryLazy"
+    lazy = false
   }
 }
 return plugins
