@@ -113,14 +113,14 @@ setup_scripts() {
 # Git configuration
 setup_git() {
   mirror_path "git/gitattributes" ".gitattributes"
-  mirror_path "git/gitconfig"      ".gitconfig"
+  mirror_path "git/gitconfig"     ".gitconfig"
   mirror_path "git/gitignore"     ".gitignore"
 }
 
 # GnuPG configuration
 setup_gpg() {
   append_path "gpg/gpg-profile.bash" ".bash_profile"
-  copy_path   "gpg/gpg-agent.conf"  ".gnupg/gpg-agent.conf"
+  copy_path   "gpg/gpg-agent.conf"   ".gnupg/gpg-agent.conf"
   echo "pinentry-program $(command -v pinentry)" >> "${HOME}/.gnupg/gpg-agent.conf"
 }
 
@@ -129,8 +129,15 @@ setup_npm() {
   mirror_path "npm/npmrc" ".npmrc"
 }
 
+# Neovim configuration
 setup_neovim() {
   mirror_path "neovim" ".config/nvim"
+}
+
+# Tmux configuration
+setup_tmux() {
+  git clone https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm" --depth 1
+  mirror_path "tmux/tmux.conf" ".tmux.conf"
 }
 
 # iTerm2 configuration
@@ -180,6 +187,7 @@ setup_config() {
   setup_npm
   setup_scripts
   setup_neovim
+  setup_tmux
   e_done
 }
 

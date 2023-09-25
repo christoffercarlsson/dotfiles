@@ -1,5 +1,9 @@
 local plugins = {
   {
+    "christoomey/vim-tmux-navigator",
+    lazy = false
+  },
+  {
     "lukas-reineke/indent-blankline.nvim",
     enabled = false,
   },
