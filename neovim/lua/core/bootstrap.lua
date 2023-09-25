@@ -9,7 +9,13 @@ end
 
 local function shell_call(args)
   local output = fn.system(args)
-  assert(vim.v.shell_error == 0, "External call failed with error code: " .. vim.v.shell_error .. "\n" .. output)
+  assert(
+    vim.v.shell_error == 0,
+    "External call failed with error code: "
+      .. vim.v.shell_error
+      .. "\n"
+      .. output
+  )
 end
 
 M.lazy = function(install_path)
@@ -19,7 +25,16 @@ M.lazy = function(install_path)
   M.echo "  Compiling base46 theme to bytecode ..."
 
   local base46_repo = "https://github.com/NvChad/base46"
-  shell_call { "git", "clone", "--depth", "1", "-b", "v2.0", base46_repo, lazy_path }
+  shell_call {
+    "git",
+    "clone",
+    "--depth",
+    "1",
+    "-b",
+    "v2.0",
+    base46_repo,
+    lazy_path,
+  }
   vim.opt.rtp:prepend(lazy_path)
 
   require("base46").compile()
@@ -27,7 +42,14 @@ M.lazy = function(install_path)
   --------- lazy.nvim ---------------
   M.echo "  Installing lazy.nvim & plugins ..."
   local repo = "https://github.com/folke/lazy.nvim.git"
-  shell_call { "git", "clone", "--filter=blob:none", "--branch=stable", repo, install_path }
+  shell_call {
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "--branch=stable",
+    repo,
+    install_path,
+  }
   vim.opt.rtp:prepend(install_path)
 
   -- install plugins
@@ -41,11 +63,19 @@ M.gen_chadrc_template = function()
   local path = fn.stdpath "config" .. "/lua/custom"
 
   if fn.isdirectory(path) ~= 1 then
-    local input = fn.input "Do you want to install example custom config? (y/N): "
+    local input =
+      fn.input "Do you want to install example custom config? (y/N): "
 
     if input:lower() == "y" then
       M.echo "Cloning example custom config repo..."
-      shell_call { "git", "clone", "--depth", "1", "https://github.com/NvChad/example_config", path }
+      shell_call {
+        "git",
+        "clone",
+        "--depth",
+        "1",
+        "https://github.com/NvChad/example_config",
+        path,
+      }
       fn.delete(path .. "/.git", "rf")
     else
       -- use very minimal chadrc

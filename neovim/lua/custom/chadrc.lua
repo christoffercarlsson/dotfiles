@@ -1,12 +1,12 @@
-require("custom.options")
+require "custom.options"
 
 vim.api.nvim_create_autocmd("FileType", {
   once = true,
   callback = function()
-    vim.cmd("highlight clear NvimTreeExecFile")
-    vim.cmd("highlight clear NvimTreeImageFile")
-    vim.cmd("highlight link ScrollView St_file_info")
-  end
+    vim.cmd "highlight clear NvimTreeExecFile"
+    vim.cmd "highlight clear NvimTreeImageFile"
+    vim.cmd "highlight link ScrollView St_file_info"
+  end,
 })
 
 local M = {}
@@ -16,14 +16,14 @@ M.ui = {
   statusline = {
     theme = "default",
     separator_style = "block",
-    overriden_modules = require("custom.configs.statusline-override"),
+    overriden_modules = require "custom.configs.statusline-override",
   },
   tabufline = {
-    enabled = false
-  }
+    enabled = false,
+  },
 }
 
 M.plugins = "custom.plugins"
-M.mappings = require("custom.mappings")
+M.mappings = require "custom.mappings"
 
 return M

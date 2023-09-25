@@ -3,7 +3,8 @@ local merge_tb = vim.tbl_deep_extend
 
 M.load_config = function()
   local config = require "core.default_config"
-  local chadrc_path = vim.api.nvim_get_runtime_file("lua/custom/chadrc.lua", false)[1]
+  local chadrc_path =
+    vim.api.nvim_get_runtime_file("lua/custom/chadrc.lua", false)[1]
 
   if chadrc_path then
     local chadrc = dofile(chadrc_path)
@@ -61,7 +62,8 @@ M.load_mappings = function(section, mapping_opt)
       section_values.plugin = nil
 
       for mode, mode_values in pairs(section_values) do
-        local default_opts = merge_tb("force", { mode = mode }, mapping_opt or {})
+        local default_opts =
+          merge_tb("force", { mode = mode }, mapping_opt or {})
         for keybind, mapping_info in pairs(mode_values) do
           -- merge default + user opts
           local opts = merge_tb("force", default_opts, mapping_info.opts or {})

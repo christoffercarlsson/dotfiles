@@ -16,9 +16,9 @@ M.general = {
     },
     ["<C-k"] = {
       "<cmd> TmuxNavigateUp <CR>",
-      "Window up"
+      "Window up",
     },
-  }
+  },
 }
 
 M.dap = {
@@ -32,7 +32,7 @@ M.dap = {
       "<cmd> DapContinue <CR>",
       "Start or continue the debugger",
     },
-  }
+  },
 }
 
 return M

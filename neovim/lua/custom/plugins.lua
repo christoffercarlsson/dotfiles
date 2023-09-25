@@ -1,7 +1,7 @@
 local plugins = {
   {
     "christoomey/vim-tmux-navigator",
-    lazy = false
+    lazy = false,
   },
   {
     "lukas-reineke/indent-blankline.nvim",
@@ -12,8 +12,8 @@ local plugins = {
     event = "VeryLazy",
     dependencies = "mfussenegger/nvim-dap",
     config = function()
-      local dap = require("dap")
-      local dapui = require("dapui")
+      local dap = require "dap"
+      local dapui = require "dapui"
       dapui.setup()
       dap.listeners.after.event_initialized["dapui_config"] = function()
         dapui.open()
@@ -24,7 +24,7 @@ local plugins = {
       dap.listeners.before.event_exited["dapui_config"] = function()
         dapui.close()
       end
-    end
+    end,
   },
   {
     "jay-babu/mason-nvim-dap.nvim",
@@ -34,15 +34,15 @@ local plugins = {
       "mfussenegger/nvim-dap",
     },
     opts = {
-      handlers = {}
+      handlers = {},
     },
   },
   {
     "mfussenegger/nvim-dap",
     config = function()
       require "custom.configs.dap"
-      require("core.utils").load_mappings("dap")
-    end
+      require("core.utils").load_mappings "dap"
+    end,
   },
   {
     "jose-elias-alvarez/null-ls.nvim",
@@ -85,9 +85,9 @@ local plugins = {
         "tsx",
         "typescript",
         "vim",
-        "yaml"
-      }
-    }
+        "yaml",
+      },
+    },
   },
   {
     "williamboman/mason.nvim",
@@ -97,6 +97,7 @@ local plugins = {
         "clangd",
         "clang-format",
         "codelldb",
+        "cmake-language-server",
         "eslint-lsp",
         "js-debug-adapter",
         "json-lsp",
@@ -105,15 +106,15 @@ local plugins = {
         "rust-analyzer",
         "stylua",
         "typescript-language-server",
-      }
-    }
+      },
+    },
   },
   {
     "nvim-tree/nvim-tree.lua",
     opts = {
       disable_netrw = true,
       filters = {
-        custom = { "^\\.git$", "^\\.DS_Store$" }
+        custom = { "^\\.git$", "^\\.DS_Store$", "^\\.cache$" },
       },
       renderer = {
         special_files = {},
@@ -128,10 +129,10 @@ local plugins = {
       },
       view = {
         width = {
-          min = 36
-        }
-      }
-    }
+          min = 36,
+        },
+      },
+    },
   },
   {
     "dstein64/nvim-scrollview",
@@ -149,32 +150,32 @@ local plugins = {
       defaults = {
         color_devicons = false,
         preview = {
-          hide_on_startup = true
-        }
-      }
-    }
+          hide_on_startup = true,
+        },
+      },
+    },
   },
   {
     "rust-lang/rust.vim",
     ft = "rust",
-    init = function ()
+    init = function()
       vim.g.rustfmt_autosave = 1
-    end
+    end,
   },
   {
     "simrat39/rust-tools.nvim",
     ft = "rust",
     dependencies = "neovim/nvim-lspconfig",
-    opts = function ()
+    opts = function()
       return require "custom.configs.rust-tools"
     end,
     config = function(_, opts)
       require("rust-tools").setup(opts)
-    end
+    end,
   },
   {
     "github/copilot.vim",
-    lazy = false
-  }
+    lazy = false,
+  },
 }
 return plugins
