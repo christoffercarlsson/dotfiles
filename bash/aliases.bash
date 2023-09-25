@@ -3,9 +3,9 @@ alias sudo="sudo "
 
 if ls --color > /dev/null 2>&1
 then
-  colorflag="--color"
+    colorflag="--color"
 else
-  colorflag="-G"
+    colorflag="-G"
 fi
 
 # Always use color output when listing directory contents.
