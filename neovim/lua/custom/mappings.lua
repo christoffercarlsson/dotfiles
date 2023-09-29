@@ -18,6 +18,10 @@ M.general = {
       "<cmd> TmuxNavigateUp <CR>",
       "Window up",
     },
+    ["<leader>zm"] = {
+      "<cmd> ZenMode <CR>",
+      "Enable Zen Mode",
+    },
   },
 }
 

@@ -94,6 +94,7 @@ local plugins = {
     opts = {
       ensure_installed = {
         "astro-language-server",
+        "black",
         "clangd",
         "clang-format",
         "codelldb",
@@ -176,6 +177,42 @@ local plugins = {
   {
     "github/copilot.vim",
     lazy = false,
+  },
+  {
+    "folke/zen-mode.nvim",
+    event = "VeryLazy",
+    opts = {
+      window = {
+        backdrop = 1,
+        width = 82,
+        options = {
+          number = false,
+          relativenumber = false,
+        },
+      },
+      on_open = function()
+        vim.cmd "ScrollViewDisable"
+        vim.cmd "Gitsigns toggle_signs"
+        local ft = vim.bo.filetype
+        if ft == "markdown" or ft == "text" then
+          vim.g.cmp_enabled = false
+        end
+      end,
+      on_close = function()
+        vim.cmd "ScrollViewEnable"
+        vim.cmd "Gitsigns toggle_signs"
+        vim.g.cmp_enabled = true
+      end,
+    },
+  },
+  {
+    "hrsh7th/nvim-cmp",
+    lazy = false,
+    opts = {
+      enabled = function()
+        return vim.g.cmp_enabled
+      end,
+    },
   },
 }
 return plugins
