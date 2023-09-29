@@ -25,3 +25,5 @@ export COLOR_BLUE=$(tput setaf 4)
 export COLOR_MAGENTA=$(tput setaf 5)
 export COLOR_CYAN=$(tput setaf 6)
 export COLOR_WHITE=$(tput setaf 7)
+
+export PRETTIERD_DEFAULT_CONFIG="${HOME}/.prettierrc.json"

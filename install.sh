@@ -124,6 +124,11 @@ setup_gpg() {
     echo "pinentry-program $(command -v pinentry)" >> "${HOME}/.gnupg/gpg-agent.conf"
 }
 
+# iTerm2 configuration
+setup_iterm2() {
+    copy_path "iterm2/com.googlecode.iterm2.plist" "Library/Preferences/com.googlecode.iterm2.plist"
+}
+
 # NPM configuration
 setup_npm() {
     mirror_path "npm/npmrc" ".npmrc"
@@ -134,15 +139,15 @@ setup_neovim() {
     mirror_path "neovim" ".config/nvim"
 }
 
+# Prettier configuration
+setup_prettier() {
+    mirror_path "prettier/prettierrc.json" ".prettierrc.json"
+}
+
 # Tmux configuration
 setup_tmux() {
     git clone --depth 1 https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm" &> /dev/null
     mirror_path "tmux/tmux.conf" ".tmux.conf"
-}
-
-# iTerm2 configuration
-setup_iterm2() {
-    copy_path "iterm2/com.googlecode.iterm2.plist" "Library/Preferences/com.googlecode.iterm2.plist"
 }
 
 update_homebrew() {
@@ -188,6 +193,7 @@ setup_config() {
     setup_scripts
     setup_neovim
     setup_tmux
+    setup_prettier
     e_done
 }
 
