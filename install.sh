@@ -42,6 +42,10 @@ is_confirmed() {
     [[ "${REPLY}" =~ ^[Yy]$ ]]
 }
 
+is_dir() {
+  [[ -d "${1}" ]]
+}
+
 is_macos() {
     [[ "${OS}" == "Darwin" ]]
 }
@@ -58,7 +62,7 @@ check_os_requirements() {
 }
 
 check_existing_dotfiles() {
-    if [[ -d ${DOTFILES_DIRECTORY} ]]
+    if is_dir ${DOTFILES_DIRECTORY}
     then
         seek_confirmation "This may overwrite your existing dotfiles."
         if ! is_confirmed
@@ -199,6 +203,10 @@ setup_config() {
 
 install_starship() {
     e_header "Installing Starship..."
+    if ! is_dir "/usr/local/bin"
+    then
+        sudo mkdir "/usr/local/bin"
+    fi
     curl -sS https://starship.rs/install.sh | sh
     e_done
 }
@@ -216,13 +224,14 @@ update_git_remote_url() {
 install_dotfiles() {
     check_os_requirements
     check_existing_dotfiles
+    sudo -v
     install_homebrew
     download_dotfiles
-    setup_config
     setup_apps
     install_starship
-    install_nvm
     update_git_remote_url
+    setup_config
+    install_nvm
     e_success "Restart your terminal for the changes to take effect"
 }
 
