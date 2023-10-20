@@ -74,6 +74,7 @@ local plugins = {
         "javascript",
         "json",
         "kotlin",
+        "latex",
         "lua",
         "objc",
         "prisma",
@@ -115,7 +116,12 @@ local plugins = {
     opts = {
       disable_netrw = true,
       filters = {
-        custom = { "^\\.git$", "^\\.DS_Store$", "^\\.cache$" },
+        custom = {
+          "^\\.git$",
+          "^\\.DS_Store$",
+          "^\\.cache$",
+          "^\\.null-ls_.+$",
+        },
       },
       renderer = {
         special_files = {},
