@@ -95,6 +95,7 @@ local plugins = {
     opts = {
       ensure_installed = {
         "astro-language-server",
+        "beautysh",
         "black",
         "clangd",
         "clang-format",
@@ -120,7 +121,7 @@ local plugins = {
           "^\\.git$",
           "^\\.DS_Store$",
           "^\\.cache$",
-          "^\\.null-ls_.+$",
+          "^\\.null\\-ls",
         },
       },
       renderer = {
