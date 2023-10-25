@@ -7,8 +7,9 @@ get_gpg_keyid_by_email() {
 
 set_git_author() {
     local file="${HOME}/.gitconfig.local"
-    read -p "Enter your name: " name
-    read -p "Enter your email address: " email
+    echo -e "Enter your Git credentials...\n"
+    read -p "Name: " name
+    read -p "Email: " email
     git config --file ${file} user.name "${name}"
     git config --file ${file} user.email "${email}"
     local key=$(get_gpg_keyid_by_email ${email})
@@ -16,10 +17,11 @@ set_git_author() {
     then
         echo -e "\nCould not find your PGP public key on a keyserver."
         echo -e "Please import your public key manually and then enter your key ID"
-        echo -e "using the following command (replace <KEY-ID> with your key ID): "
+        echo -e "using the following command (replace <KEY-ID> with your key ID):"
         echo -e "\ngit config --file ${file} user.signingkey \"<KEY-ID>\""
+    else
+        git config --file ${file} user.signingkey "${key}"
     fi
-    git config --file ${file} user.signingkey "${key}"
 }
 
 set_git_author
