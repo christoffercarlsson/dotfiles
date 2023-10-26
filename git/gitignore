@@ -1,6 +1,7 @@
 node_modules/
 Thumbs.db
 .DS_Store
+.null-ls*
 ._*
 *~
 *.log
