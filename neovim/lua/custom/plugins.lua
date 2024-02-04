@@ -201,7 +201,7 @@ local plugins = {
         vim.cmd "ScrollViewDisable"
         vim.cmd "Gitsigns toggle_signs"
         local ft = vim.bo.filetype
-        if ft == "markdown" or ft == "text" then
+        if ft == "markdown" or ft == "text" or ft == "plaintex" then
           vim.g.cmp_enabled = false
         end
       end,
