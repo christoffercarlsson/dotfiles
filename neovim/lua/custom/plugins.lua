@@ -45,6 +45,14 @@ local plugins = {
     end,
   },
   {
+    "dreamsofcode-io/nvim-dap-go",
+    ft = "go",
+    dependencies = "mfussenegger/nvim-dap",
+    config = function(_, opts)
+      require("dap-go").setup(opts)
+    end,
+  },
+  {
     "jose-elias-alvarez/null-ls.nvim",
     event = "VeryLazy",
     opts = function()
@@ -69,6 +77,7 @@ local plugins = {
         "css",
         "dockerfile",
         "gitignore",
+        "go",
         "graphql",
         "html",
         "javascript",
@@ -102,6 +111,7 @@ local plugins = {
         "codelldb",
         "cmake-language-server",
         "eslint-lsp",
+        "gopls",
         "js-debug-adapter",
         "json-lsp",
         "lua-language-server",
