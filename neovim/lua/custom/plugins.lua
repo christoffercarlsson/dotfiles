@@ -152,16 +152,16 @@ local plugins = {
       },
     },
   },
-  {
-    "dstein64/nvim-scrollview",
-    event = "VeryLazy",
-    config = function()
-      require("scrollview").setup {
-        excluded_filetypes = { "NvimTree" },
-        signs_on_startup = {},
-      }
-    end,
-  },
+  -- {
+  --   "dstein64/nvim-scrollview",
+  --   event = "VeryLazy",
+  --   config = function()
+  --     require("scrollview").setup {
+  --       excluded_filetypes = { "NvimTree" },
+  --       signs_on_startup = {},
+  --     }
+  --   end,
+  -- },
   {
     "nvim-telescope/telescope.nvim",
     opts = {
