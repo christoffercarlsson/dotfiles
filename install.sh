@@ -119,6 +119,10 @@ setup_git() {
     mirror_path "git/gitattributes" ".gitattributes"
     mirror_path "git/gitconfig"     ".gitconfig"
     mirror_path "git/gitignore"     ".gitignore"
+    if is_macos
+    then
+        append_path "git/gitconfig-macos" ".gitconfig.local"
+    fi
 }
 
 # GnuPG configuration
@@ -141,6 +145,15 @@ setup_npm() {
 # Neovim configuration
 setup_neovim() {
     mirror_path "neovim" ".config/nvim"
+}
+
+# Zed configuration
+setup_zed() {
+    if ! is_dir "${HOME}/.config/zed"
+    then
+      mkdir "${HOME}/.config/zed"
+    fi
+    mirror_path "zed/settings.json" ".config/zed/settings.json"
 }
 
 # Prettier configuration
@@ -204,6 +217,7 @@ setup_config() {
     setup_npm
     setup_scripts
     setup_neovim
+    setup_zed
     setup_tmux
     setup_prettier
     e_done
@@ -220,9 +234,12 @@ install_starship() {
 }
 
 install_nvm() {
-    e_header "Installing NVM..."
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-    e_done
+    if ! is_macos
+    then
+        e_header "Installing NVM..."
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+        e_done
+    fi
 }
 
 update_git_remote_url() {
