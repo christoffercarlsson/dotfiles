@@ -1,0 +1,75 @@
+{
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false
+  },
+  "vim_mode": true,
+  "cursor_blink": false,
+  "ui_font_size": 18,
+  "buffer_font_size": 16,
+  "ui_font_family": "JetBrainsMono Nerd Font",
+  "buffer_font_family": "JetBrainsMono Nerd Font",
+  "theme": {
+    "mode": "dark",
+    "light": "Catppuccin Latte",
+    "dark": "Catppuccin Mocha"
+  },
+  "features": {
+    "inline_completion_provider": "none"
+  },
+  "gutter": {
+    "code_actions": false,
+    "runnables": false,
+    "folds": false
+  },
+  "git": {
+    "inline_blame": {
+      "enabled": false
+    }
+  },
+  "toolbar": {
+    "breadcrumbs": false,
+    "quick_actions": false,
+    "selections_menu": false
+  },
+  "scrollbar": {
+    "show": "never"
+  },
+  "indent_guides": {
+    "enabled": false
+  },
+  "relative_line_numbers": true,
+  "project_panel": {
+    "button": false,
+    "default_width": 360,
+    "file_icons": false,
+    "scrollbar": {
+      "show": "never"
+    }
+  },
+  "outline_panel": {
+    "button": false,
+    "default_width": 360
+  },
+  "collaboration_panel": {
+    "button": false,
+    "default_width": 360
+  },
+  "chat_panel": {
+    "button": false
+  },
+  "notification_panel": {
+    "button": false
+  },
+  "tab_bar": {
+    "show": false
+  },
+  "assistant": {
+    "version": "2",
+    "enabled": false
+  },
+  "terminal": {
+    "button": false,
+    "dock": "right"
+  }
+}
