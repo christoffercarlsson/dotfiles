@@ -168,7 +168,7 @@ local plugins = {
       defaults = {
         color_devicons = false,
         preview = {
-          hide_on_startup = true,
+          hide_on_startup = false,
         },
       },
     },

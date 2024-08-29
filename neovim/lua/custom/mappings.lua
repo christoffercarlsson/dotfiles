@@ -20,7 +20,11 @@ M.general = {
     },
     ["<leader>zm"] = {
       "<cmd> ZenMode <CR>",
-      "Enable Zen Mode",
+      "Toggle Zen Mode",
+    },
+    ["<leader><leader>"] = {
+      "<cmd> Telescope live_grep <CR>",
+      "Telescope Live Grep",
     },
   },
 }
