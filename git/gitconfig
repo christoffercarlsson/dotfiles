@@ -19,5 +19,3 @@
 	rebase = false
 [init]
 	defaultBranch = main
-[gpg]
-	format = ssh
