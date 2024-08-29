@@ -57,7 +57,12 @@ cmd_exists() {
 check_os_requirements() {
     if ! cmd_exists "git"
     then
-        abort "This script requires Git to be installed."
+        if is_macos
+        then
+            xcode-select --install
+        else
+            abort "This script requires Git to be installed."
+        fi
     fi
 }
 
@@ -239,9 +244,9 @@ update_git_remote_url() {
 }
 
 install_dotfiles() {
-    check_os_requirements
     check_existing_dotfiles
     sudo -v
+    check_os_requirements
     install_homebrew
     download_dotfiles
     setup_apps
