@@ -43,7 +43,7 @@ is_confirmed() {
 }
 
 is_dir() {
-  [[ -d "${1}" ]]
+    [[ -d "${1}" ]]
 }
 
 is_macos() {
@@ -151,7 +151,7 @@ setup_neovim() {
 setup_zed() {
     if ! is_dir "${HOME}/.config/zed"
     then
-      mkdir "${HOME}/.config/zed"
+        mkdir "${HOME}/.config/zed"
     fi
     mirror_path "zed/settings.json" ".config/zed/settings.json"
 }
@@ -165,10 +165,11 @@ setup_prettier() {
 setup_ssh() {
     if ! is_dir "${HOME}/.ssh"
     then
-      mkdir "${HOME}/.ssh"
+        mkdir "${HOME}/.ssh"
     fi
     copy_path "ssh/config" ".ssh/config"
 }
+
 # Tmux configuration
 setup_tmux() {
     git clone --depth 1 https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm" &> /dev/null
@@ -233,15 +234,6 @@ install_starship() {
     e_done
 }
 
-install_nvm() {
-    if ! is_macos
-    then
-        e_header "Installing NVM..."
-        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-        e_done
-    fi
-}
-
 update_git_remote_url() {
     (cd ${DOTFILES_DIRECTORY}; git remote set-url origin ${DOTFILES_REMOTE_SSH})
 }
@@ -256,8 +248,7 @@ install_dotfiles() {
     install_starship
     update_git_remote_url
     setup_config
-    install_nvm
-    e_success "Restart your terminal for the changes to take effect"
+    e_success "Success! Now, restart your terminal for the changes to take effect"
 }
 
 install_dotfiles
