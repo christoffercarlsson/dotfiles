@@ -19,7 +19,7 @@ e_success() {
 }
 
 e_done() {
-    e_success "Done"
+    e_success "Done."
 }
 
 e_warning() {
@@ -248,7 +248,12 @@ install_dotfiles() {
     install_starship
     update_git_remote_url
     setup_config
-    e_success "Success! Now, restart your terminal for the changes to take effect"
+    if is_macos
+    then
+        e_success "Success! Now, close this terminal and launch iTerm2 to see the changes take effect."
+    else
+        e_success "Success! Now, restart your terminal to see the changes take effect."
+    fi
 }
 
 install_dotfiles
