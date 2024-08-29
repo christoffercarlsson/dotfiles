@@ -54,7 +54,9 @@ machines is done by commiting and pushing the changes to the remote repository
 specified by the `DOTFILES_REMOTE_SSH` value defined at the top of the
 `install.sh` file.
 
-By updating the `DOTFILES_REMOTE_SSH` value and running the
+By updating the location of the installation script in
+[Step 1](#step-1---run-installation-script) above, setting the
+`DOTFILES_REMOTE_SSH` value in `install.sh` and running the
 `git remote set-url origin <your-repo-url>` command you can easily keep your own
 copy and version history of these dotfiles in sync across your devices.
 
