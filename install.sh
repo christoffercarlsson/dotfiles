@@ -127,7 +127,6 @@ setup_gpg() {
     then
         mkdir "${HOME}/.gnupg"
     fi
-    
     append_path "gpg/gpg-profile.bash" ".bash_profile"
     copy_path   "gpg/gpg-agent.conf"   ".gnupg/gpg-agent.conf"
     echo "pinentry-program $(command -v pinentry)" >> "${HOME}/.gnupg/gpg-agent.conf"
@@ -147,9 +146,9 @@ setup_npm() {
 
 # Neovim configuration
 setup_neovim() {
-    if ! is_dir "${HOME}/.config/nvim"
+    if ! is_dir "${HOME}/.config"
     then
-        mkdir -p "${HOME}/.config/nvim"
+        mkdir "${HOME}/.config"
     fi
     mirror_path "neovim" ".config/nvim"
 }
