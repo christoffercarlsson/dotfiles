@@ -90,15 +90,6 @@ mirror_path() {
     ln -nfs "${DOTFILES_DIRECTORY}/${1}" "${HOME}/${2}"
 }
 
-install_homebrew() {
-    if is_macos
-    then
-        e_header "Installing Homebrew..."
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        e_done
-    fi
-}
-
 # Bash configuration
 setup_bash() {
     mirror_path "bash/aliases.bash" ".bash_aliases"
@@ -132,9 +123,16 @@ setup_git() {
 
 # GnuPG configuration
 setup_gpg() {
+    if ! is_dir "${HOME}/.gnupg"
+    then
+        mkdir "${HOME}/.gnupg"
+    fi
+    
     append_path "gpg/gpg-profile.bash" ".bash_profile"
     copy_path   "gpg/gpg-agent.conf"   ".gnupg/gpg-agent.conf"
     echo "pinentry-program $(command -v pinentry)" >> "${HOME}/.gnupg/gpg-agent.conf"
+    chmod 700 ~/.gnupg
+    chmod 600 ~/.gnupg/*
 }
 
 # iTerm2 configuration
@@ -149,6 +147,10 @@ setup_npm() {
 
 # Neovim configuration
 setup_neovim() {
+    if ! is_dir "${HOME}/.config/nvim"
+    then
+        mkdir -p "${HOME}/.config/nvim"
+    fi
     mirror_path "neovim" ".config/nvim"
 }
 
@@ -156,7 +158,7 @@ setup_neovim() {
 setup_zed() {
     if ! is_dir "${HOME}/.config/zed"
     then
-        mkdir "${HOME}/.config/zed"
+        mkdir -p "${HOME}/.config/zed"
     fi
     mirror_path "zed/settings.json" ".config/zed/settings.json"
 }
@@ -189,20 +191,12 @@ update_homebrew() {
     e_done
 }
 
-install_apps() {
-    e_header "Installing apps..."
-    mirror_path "homebrew/Brewfile" ".Brewfile"
-    brew bundle install --global --cleanup --no-lock
-    e_done
-}
-
 setup_apps() {
     if cmd_exists "brew"
     then
         update_homebrew
         if is_macos
         then
-            install_apps
             setup_iterm2
         fi
     fi
@@ -247,12 +241,11 @@ install_dotfiles() {
     check_existing_dotfiles
     sudo -v
     check_os_requirements
-    install_homebrew
     download_dotfiles
+    setup_config
     setup_apps
     install_starship
     update_git_remote_url
-    setup_config
     if is_macos
     then
         e_success "Success! Now, close this terminal and launch iTerm2 to see the changes take effect."
