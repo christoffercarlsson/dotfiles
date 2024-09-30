@@ -242,9 +242,9 @@ install_dotfiles() {
     sudo -v
     check_os_requirements
     download_dotfiles
+    install_starship
     setup_config
     setup_apps
-    install_starship
     update_git_remote_url
     if is_macos
     then
