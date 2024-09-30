@@ -167,15 +167,6 @@ setup_prettier() {
     mirror_path "prettier/prettierrc.json" ".prettierrc.json"
 }
 
-# SSH configuration
-setup_ssh() {
-    if ! is_dir "${HOME}/.ssh"
-    then
-        mkdir "${HOME}/.ssh"
-    fi
-    copy_path "ssh/config" ".ssh/config"
-}
-
 # Tmux configuration
 setup_tmux() {
     git clone --depth 1 https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm" &> /dev/null
