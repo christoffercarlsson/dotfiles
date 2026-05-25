@@ -96,4 +96,4 @@ shopt -s checkwinsize histappend
 
 alias la="ls -ahl"
 
-[ -f ~/.bash_profile.local ] && source ~/.bash_profile.local
+[ -f ~/.bash.local ] && source ~/.bash.local
