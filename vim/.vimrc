@@ -157,7 +157,8 @@ if executable('jaq')
         call winrestview(view)
     endfunction
 
-    autocmd! BufWritePre *.json,*.yaml,*.yml call FormatJaqBuffer()
+    " autocmd! BufWritePre *.json,*.yaml,*.yml call FormatJaqBuffer()
+    autocmd! BufWritePre *.json call FormatJaqBuffer()
 endif
 
 nnoremap <C-n> <cmd>cn<cr>
