@@ -166,5 +166,8 @@ vim.lsp.enable("tombi")
 
 local local_config = vim.fn.expand("~/.nvim.local")
 if vim.uv.fs_stat(local_config) then
-    vim.cmd.source(local_config)
+    local ok, err = pcall(dofile, local_config)
+    if not ok then
+        vim.notify(".nvim.local: " .. err, vim.log.levels.ERROR)
+    end
 end
