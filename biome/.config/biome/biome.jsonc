@@ -15,7 +15,8 @@
       "bracketSpacing": true,
       "jsxQuoteStyle": "double",
       "quoteProperties": "asNeeded",
-      "semicolons": "always",
+      "quoteStyle": "double",
+      "semicolons": "asNeeded",
       "trailingCommas": "all"
     }
   },
