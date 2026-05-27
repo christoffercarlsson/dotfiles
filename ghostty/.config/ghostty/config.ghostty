@@ -7,7 +7,8 @@ cursor-style = block
 cursor-style-blink = false
 shell-integration-features = no-cursor
 
-macos-titlebar-style = tabs
+title = "Ghostty"
+macos-titlebar-proxy-icon = hidden
 bell-features = no-title
 
 window-inherit-working-directory = true
