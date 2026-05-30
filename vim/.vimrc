@@ -115,6 +115,9 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
+nnoremap <leader>- :split<cr>
+nnoremap <leader>\ :vsplit<cr>
+
 autocmd! FileType help :wincmd L
 
 set noautochdir
@@ -148,8 +151,8 @@ endif
 nnoremap <C-n> <cmd>cn<cr>
 nnoremap <C-p> <cmd>cp<cr>
 
-nnoremap <silent> <Esc> <cmd>set nohlsearch<cr>
-nnoremap <silent> <Esc><Esc> <cmd>cclose<cr>
+nnoremap <silent> <Esc> :set nohlsearch<cr>
+nnoremap <silent> <Esc><Esc> :cclose<cr>
 
 set confirm
 
