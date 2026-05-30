@@ -162,7 +162,7 @@ vim.lsp.config("tombi", {
     root_markers = { ".git", "pyproject.toml", "tombi.toml" },
 })
 
--- vim.lsp.enable("bash-language-server")
+vim.lsp.enable("bash-language-server")
 vim.lsp.enable("lua-language-server")
 vim.lsp.enable("rumdl")
 vim.lsp.enable("tombi")
