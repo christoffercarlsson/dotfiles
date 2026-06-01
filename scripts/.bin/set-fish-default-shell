@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 fish_path=$(command -v fish)
 
@@ -8,7 +9,12 @@ if ! [[ -x "$fish_path" ]]; then
 fi
 
 if ! grep -qx "$fish_path" /etc/shells; then
-    sudo sh -c "echo $fish_path >> /etc/shells"
+    sudo sh -c "echo '$fish_path' >> /etc/shells"
 fi
 
-chsh -s "$fish_path"
+if ! chsh -s "$fish_path"; then
+    echo "Failed to set Fish as default shell" >&2
+    exit 1
+fi
+
+echo "Fish is now the default login shell"
