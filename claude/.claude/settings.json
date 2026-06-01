@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "editorMode": "vim",
+  "theme": "dark-ansi",
+  "tui": "fullscreen"
+}
