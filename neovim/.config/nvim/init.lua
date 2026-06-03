@@ -119,6 +119,55 @@ vim.lsp.config("bash-language-server", {
     filetypes = { "bash", "sh" },
 })
 
+vim.lsp.config("biome", {
+    cmd = { "biome", "lsp-proxy" },
+    filetypes = {
+        "astro",
+        "css",
+        "graphql",
+        "html",
+        "javascript",
+        "javascriptreact",
+        "json",
+        "jsonc",
+        "svelte",
+        "typescript",
+        "typescriptreact",
+        "vue",
+    },
+    root_markers = {
+        ".git",
+        "biome.json",
+        "biome.jsonc",
+        ".biome.json",
+        ".biome.jsonc",
+        "package.json",
+    },
+})
+
+vim.lsp.config("clangd", {
+    cmd = { "clangd" },
+    filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
+    root_markers = {
+        ".git",
+        "compile_commands.json",
+        "compile_flags.txt",
+        ".clangd",
+    },
+})
+
+vim.lsp.config("gopls", {
+    cmd = { "gopls" },
+    filetypes = { "go", "gomod", "gowork", "gotmpl" },
+    root_markers = { ".git", "go.work", "go.mod" },
+    settings = {
+        gopls = {
+            gofumpt = true,
+            staticcheck = true,
+        },
+    },
+})
+
 vim.lsp.config("lua-language-server", {
     cmd = { "lua-language-server" },
     filetypes = { "lua" },
@@ -156,16 +205,42 @@ vim.lsp.config("rumdl", {
     root_markers = { ".git", ".rumdl.toml" },
 })
 
+vim.lsp.config("rust-analyzer", {
+    cmd = { "rust-analyzer" },
+    filetypes = { "rust" },
+    root_markers = { ".git", "Cargo.toml", "Cargo.lock" },
+})
+
 vim.lsp.config("tombi", {
     cmd = { "tombi", "lsp" },
     filetypes = { "toml" },
     root_markers = { ".git", "pyproject.toml", "tombi.toml" },
 })
 
+vim.lsp.config("typescript-language-server", {
+    cmd = { "typescript-language-server", "--stdio" },
+    filetypes = {
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact",
+    },
+    root_markers = { ".git", "jsconfig.json", "package.json", "tsconfig.json" },
+    on_attach = function(client)
+        client.server_capabilities.documentFormattingProvider = false
+        client.server_capabilities.documentRangeFormattingProvider = false
+    end,
+})
+
 vim.lsp.enable("bash-language-server")
+vim.lsp.enable("biome")
+vim.lsp.enable("clangd")
+vim.lsp.enable("gopls")
 vim.lsp.enable("lua-language-server")
 vim.lsp.enable("rumdl")
+vim.lsp.enable("rust-analyzer")
 vim.lsp.enable("tombi")
+vim.lsp.enable("typescript-language-server")
 
 local local_config = vim.fn.expand("~/.nvim.local")
 if vim.uv.fs_stat(local_config) then
