@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+shell_name=$1
+shell_path=$(command -v "$shell_name")
+
+if ! [[ -x "$shell_path" ]]; then
+    echo "$shell_name not found" >&2
+    exit 1
+fi
+
+if ! grep -qx "$shell_path" /etc/shells && command -v sudo > /dev/null; then
+    sudo sh -c "echo '$shell_path' >> /etc/shells"
+fi
+
+if ! chsh -s "$shell_path"; then
+    echo "Failed to set the default shell" >&2
+    exit 1
+fi
+
+echo "$shell_path is now the default login shell"
