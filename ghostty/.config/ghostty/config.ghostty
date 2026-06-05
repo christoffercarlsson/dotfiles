@@ -19,3 +19,5 @@ window-padding-x = 8
 window-padding-y = 8
 
 theme = TokyoNight Moon
+
+clipboard-read = deny
