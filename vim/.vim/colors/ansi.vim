@@ -48,7 +48,7 @@ hi! LineNr                          ctermbg=NONE    ctermfg=8     cterm=NONE
 hi! CursorLineNr                    ctermbg=NONE    ctermfg=6     cterm=NONE
 hi! helpLeadBlank                   ctermbg=NONE    ctermfg=NONE  cterm=NONE
 hi! helpNormal                      ctermbg=NONE    ctermfg=NONE  cterm=NONE
-hi! Visual                          ctermbg=0       ctermfg=NONE  cterm=NONE
+hi! Visual                          ctermbg=15      ctermfg=0     cterm=NONE
 hi! VisualNOS                       ctermbg=8       ctermfg=15    cterm=bold
 hi! Pmenu                           ctermbg=0       ctermfg=15    cterm=NONE
 hi! PmenuSbar                       ctermbg=0       ctermfg=7     cterm=NONE
