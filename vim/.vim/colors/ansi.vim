@@ -10,7 +10,7 @@ set notermguicolors
 
 hi! Normal                          ctermbg=NONE    ctermfg=NONE  cterm=NONE
 hi! NonText                         ctermbg=NONE    ctermfg=0     cterm=NONE
-hi! Comment                         ctermbg=NONE    ctermfg=8     cterm=italic
+hi! Comment                         ctermbg=NONE    ctermfg=7     cterm=italic
 hi! Constant                        ctermbg=NONE    ctermfg=3     cterm=NONE
 hi! Error                           ctermbg=NONE    ctermfg=1     cterm=NONE
 hi! Identifier                      ctermbg=NONE    ctermfg=9     cterm=NONE
@@ -48,8 +48,8 @@ hi! LineNr                          ctermbg=NONE    ctermfg=8     cterm=NONE
 hi! CursorLineNr                    ctermbg=NONE    ctermfg=6     cterm=NONE
 hi! helpLeadBlank                   ctermbg=NONE    ctermfg=NONE  cterm=NONE
 hi! helpNormal                      ctermbg=NONE    ctermfg=NONE  cterm=NONE
-hi! Visual                          ctermbg=15      ctermfg=0     cterm=NONE
-hi! VisualNOS                       ctermbg=8       ctermfg=15    cterm=bold
+hi! Visual                          ctermbg=8       ctermfg=NONE  cterm=NONE
+hi! VisualNOS                       ctermbg=8       ctermfg=NONE  cterm=bold
 hi! Pmenu                           ctermbg=0       ctermfg=15    cterm=NONE
 hi! PmenuSbar                       ctermbg=0       ctermfg=7     cterm=NONE
 hi! PmenuSel                        ctermbg=8       ctermfg=15    cterm=bold
