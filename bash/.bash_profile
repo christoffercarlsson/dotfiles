@@ -77,6 +77,7 @@ export PATH="$HOME/.bin:$PATH"
 
 shopt -s checkwinsize histappend
 
+alias ls="ls --color"
 alias la="ls -ahl"
 
 [ -f ~/.bash.local ] && source ~/.bash.local

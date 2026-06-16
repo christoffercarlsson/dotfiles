@@ -56,6 +56,7 @@ PROMPT2="> "
 
 path=("$HOME/.bin" $path)
 
+alias ls="ls --color"
 alias la="ls -ahl"
 
 [ -f ~/.zsh.local ] && source ~/.zsh.local
