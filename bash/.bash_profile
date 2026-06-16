@@ -1,5 +1,4 @@
 # Show the current working directory and Git repository status in the prompt.
-# If connected via SSH, also show the current user and host name.
 git_ps1_branch_name() {
     git symbolic-ref --quiet --short HEAD 2>/dev/null ||
         git rev-parse --short HEAD 2>/dev/null ||
@@ -32,20 +31,18 @@ git_ps1_untracked_files() {
 
 git_ps1_status() {
     local s=""
-    if git_ps1_inside_work_tree; then
-        git_ps1_update_index
-        if git_ps1_staged_changes; then
-            s="$s+"
-        fi
-        if git_ps1_unstaged_changes; then
-            s="$s*"
-        fi
-        if git_ps1_stashed_files; then
-            s="$s$"
-        fi
-        if git_ps1_untracked_files; then
-            s="$s%"
-        fi
+    git_ps1_update_index
+    if git_ps1_staged_changes; then
+        s="$s+"
+    fi
+    if git_ps1_unstaged_changes; then
+        s="$s*"
+    fi
+    if git_ps1_stashed_files; then
+        s="$s$"
+    fi
+    if git_ps1_untracked_files; then
+        s="$s%"
     fi
     echo "$s"
 }
@@ -70,14 +67,7 @@ COLOR_CYAN=$(tput setaf 6)
 COLOR_WHITE=$(tput setaf 7)
 
 export PS2="> "
-
-PS1="\n"
-if [[ "$SSH_TTY" ]]; then
-    PS1+="$COLOR_GREEN\u@\h$COLOR_RESET: "
-fi
-PS1+="$COLOR_BLUE\w$COLOR_RESET\$(git_ps1 ' $COLOR_YELLOW(%s)$COLOR_RESET')\n\$PS2"
-
-export PS1
+export PS1="\n$COLOR_BLUE\w$COLOR_RESET\$(git_ps1 ' $COLOR_YELLOW(%s)$COLOR_RESET')\n\$PS2"
 
 export HISTCONTROL=ignoredups
 export HISTSIZE=1000
