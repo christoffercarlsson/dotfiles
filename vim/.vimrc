@@ -64,7 +64,7 @@ let g:status_line_mode_map={
        \ 't'        : ['TERMINAL', 'StatusLineTerminalMode'],
        \ }
 
-function! RenderStatusLine()
+function! RenderStatusLine() abort
     let mode_map = g:status_line_mode_map[mode()]
     let mode_highlight = '%#' . mode_map[1] . '#'
     let status_line = mode_highlight
@@ -82,14 +82,14 @@ set statusline=%!RenderStatusLine()
 autocmd! WinEnter * setlocal statusline=%!RenderStatusLine()
 autocmd! WinLeave * setlocal statusline=\─
 
-function! OnQuickFixLoad()
+function! OnQuickFixLoad() abort
     setlocal statusline=%!RenderStatusLine()
     setlocal nonumber norelativenumber
 endfunction
 
 autocmd! BufReadPost quickfix call OnQuickFixLoad()
 
-function! TryChangeGitDirectory()
+function! TryChangeGitDirectory() abort
     let relevant_buftypes = ['', 'nofile', 'nowrite', 'acwrite']
     if index(relevant_buftypes, &buftype) == -1
         return
@@ -148,7 +148,44 @@ if executable('rg')
     noremap <leader>f :Rg 
 endif
 
-if executable('jaq')
+if executable('rg') && executable('fzf')
+    function! s:FuzzyCandidates() abort
+        let cmd = 'rg --files --hidden --glob=!.git/'
+        if executable('proximity-sort')
+            let current = expand('%:.')
+            if !empty(current)
+                let cmd .= ' | proximity-sort ' . shellescape(current)
+            endif
+        endif
+        return systemlist(cmd)
+    endfunction
+
+    function! FuzzyComplete(arglead, cmdline, cursorpos) abort
+        if a:arglead =~# '^[~/]' || a:arglead =~# '^\.\.\?/'
+            return getcompletion(a:arglead, 'file')
+        endif
+        let candidates = s:FuzzyCandidates()
+        if empty(a:arglead)
+            return candidates
+        endif
+        return systemlist(
+            \ 'fzf --filter=' . shellescape(a:arglead) . ' --tiebreak=index',
+            \ candidates)
+    endfunction
+
+    command! -bang -nargs=? -complete=customlist,FuzzyComplete E edit<bang> <args>
+    noremap <leader>e :E 
+    cnoreabbrev <expr> e getcmdtype() ==# ':' && getcmdline() ==# 'e' ? 'E' : 'e'
+
+    command! -nargs=? -complete=customlist,FuzzyComplete Sp split <args>
+    command! -nargs=? -complete=customlist,FuzzyComplete Vs vsplit <args>
+    cnoreabbrev <expr> sp getcmdtype() ==# ':' && getcmdline() ==# 'sp' ? 'Sp' : 'sp'
+    cnoreabbrev <expr> vs getcmdtype() ==# ':' && getcmdline() ==# 'vs' ? 'Vs' : 'vs'
+    nnoremap <leader>- :Sp 
+    nnoremap <leader>\ :Vs 
+endif
+
+if !has('nvim') && executable('jaq')
     function! FormatJaqBuffer()
         let view = winsaveview()
         silent execute '%!jaq -j --from ' . &filetype . ' --to ' . &filetype . ' .'
