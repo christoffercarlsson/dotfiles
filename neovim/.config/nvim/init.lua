@@ -126,7 +126,13 @@ vim.lsp.config("biome", {
         "css",
         "graphql",
         "html",
+        "javascript",
+        "javascriptreact",
+        "json",
+        "jsonc",
         "svelte",
+        "typescript",
+        "typescriptreact",
         "vue",
     },
     root_markers = {
@@ -155,11 +161,15 @@ vim.lsp.config("deno", {
     filetypes = {
         "javascript",
         "javascriptreact",
-        "typescript",
-        "typescriptreact",
         "json",
         "jsonc",
+        "typescript",
+        "typescriptreact",
     },
+    on_attach = function(client)
+        client.server_capabilities.documentFormattingProvider = false
+        client.server_capabilities.documentRangeFormattingProvider = false
+    end,
     root_markers = { ".git", "deno.json", "deno.jsonc", "package.json" },
     settings = {
         deno = {
