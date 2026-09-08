@@ -107,6 +107,8 @@ endfunction
 
 autocmd! BufEnter * call TryChangeGitDirectory()
 
+autocmd! VimResized * wincmd =
+
 set splitright
 set splitbelow
 
