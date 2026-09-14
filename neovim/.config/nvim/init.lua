@@ -241,6 +241,19 @@ vim.lsp.config("tombi", {
     root_markers = { ".git", "pyproject.toml", "tombi.toml" },
 })
 
+vim.filetype.add({ extension = { vp = "verifpal" } })
+
+vim.lsp.config("verifpal", {
+    cmd = { "verifpal", "lsp" },
+    filetypes = { "verifpal" },
+    settings = {
+        verifpal = {
+            validateOnType = true,
+            sessions = 2,
+        },
+    },
+})
+
 vim.lsp.enable("bash-language-server")
 vim.lsp.enable("biome")
 vim.lsp.enable("clangd")
@@ -250,6 +263,7 @@ vim.lsp.enable("lua-language-server")
 vim.lsp.enable("rumdl")
 vim.lsp.enable("rust-analyzer")
 vim.lsp.enable("tombi")
+vim.lsp.enable("verifpal")
 
 local local_config = vim.fn.expand("~/.nvim.local")
 if vim.uv.fs_stat(local_config) then
