@@ -233,6 +233,13 @@ vim.lsp.config("rust-analyzer", {
     cmd = { "rust-analyzer" },
     filetypes = { "rust" },
     root_markers = { ".git", "Cargo.toml", "Cargo.lock" },
+    settings = {
+        ["rust-analyzer"] = {
+            check = {
+                command = "clippy",
+            },
+        },
+    },
 })
 
 vim.lsp.config("tombi", {
