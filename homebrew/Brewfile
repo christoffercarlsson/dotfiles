@@ -1,8 +1,11 @@
 tap "tillitis/tkey"
-brew "stow"
+brew "container"
 brew "fish"
+brew "stow"
 brew "tkey-ssh-agent", restart_service: :changed
 brew "tkey-verification"
 cask "font-fira-code-nerd-font"
 cask "font-jetbrains-mono-nerd-font"
 cask "ghostty"
+cask "raspberry-pi-imager"
+cask "yubico-authenticator"
