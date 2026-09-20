@@ -4,6 +4,7 @@
   "env": {
     "DISABLE_TELEMETRY": "1",
     "DISABLE_UPDATES": "1"
+    "IS_DEMO": "1"
   },
   "theme": "dark-ansi",
   "tui": "fullscreen"
