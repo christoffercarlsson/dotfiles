@@ -119,6 +119,7 @@ nnoremap <C-l> <C-w>l
 
 nnoremap <leader>- :split<cr>
 nnoremap <leader>\ :vsplit<cr>
+nnoremap <leader>w :quit<cr>
 
 autocmd! FileType help :wincmd L
 
