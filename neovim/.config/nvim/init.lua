@@ -235,6 +235,9 @@ vim.lsp.config("rust-analyzer", {
     root_markers = { ".git", "Cargo.toml", "Cargo.lock" },
     settings = {
         ["rust-analyzer"] = {
+            cargo = {
+                features = "all",
+            },
             check = {
                 command = "clippy",
             },
