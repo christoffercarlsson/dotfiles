@@ -1,0 +1,257 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+usage() {
+    cat <<EOF
+Usage: $0 [options] <workspace>
+
+Options:
+  --name NAME       Container name (defaults to basename of workspace directory)
+  --image IMAGE     Image to use (defaults to ghcr.io/christoffercarlsson/devcontainers/base)
+  --cpus N          Maximum number of CPUs the container may use (defaults to 2)
+  --memory SIZE     Memory limit for the container (defaults to 4G)
+  --shell SHELL     Login shell to use; bash, fish or zsh (defaults to zsh)
+  --forward-agent   Forward the SSH agent into the container (disabled by default)
+
+Arguments:
+  workspace         Path to workspace directory (defaults to current working directory)
+EOF
+}
+
+error() {
+    echo "Error: $*" >&2
+    exit 1
+}
+
+start() {
+    local args=()
+    local cpus="2"
+    local image=""
+    local memory="4G"
+    local name=""
+    local forward_agent="no"
+    local shell=""
+
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+        -h | --help)
+            usage
+            exit 0
+            ;;
+        -n | --name)
+            name="$2"
+            shift 2
+            ;;
+        -i | --image)
+            image="$2"
+            shift 2
+            ;;
+        -c | --cpus)
+            cpus="$2"
+            shift 2
+            ;;
+        -m | --memory)
+            memory="$2"
+            shift 2
+            ;;
+        -s | --shell)
+            shell="$2"
+            shift 2
+            ;;
+        -a | --forward-agent | --forward-ssh-agent | --ssh-agent)
+            forward_agent="yes"
+            shift
+            ;;
+        --)
+            shift
+            args+=("$@")
+            break
+            ;;
+        -*) error "unknown option: $1" ;;
+        *)
+            args+=("$1")
+            shift
+            ;;
+        esac
+    done
+
+    set -- "${args[@]}"
+    local workspace="${1:-.}"
+
+    [[ -z "$workspace" ]] && error "missing argument: workspace"
+    [[ -d "$workspace" ]] || error "$workspace is not a directory"
+
+    workspace="$(cd "$workspace" && pwd)"
+
+    [[ -z "$name" ]] && name="$(basename "$workspace")"
+
+    local runtime
+    runtime="$(detect_runtime)" || error "no supported container runtime found (container, podman or docker)"
+
+    local devcontainer_dir="$workspace/.devcontainer"
+    local containerfile=""
+
+    if [[ -f "$devcontainer_dir/Containerfile" ]]; then
+        containerfile="$devcontainer_dir/Containerfile"
+    elif [[ -f "$devcontainer_dir/Dockerfile" ]]; then
+        containerfile="$devcontainer_dir/Dockerfile"
+    fi
+
+    if [[ -n "$containerfile" && -z "$image" ]]; then
+        image="devcontainers/$name"
+
+        build_image \
+            "$runtime" \
+            "$image" \
+            "$containerfile" \
+            "$devcontainer_dir" \
+            "$cpus" \
+            "$memory" || error "failed to build image from $containerfile"
+    else
+        case "$image" in
+        base | go | rust | c | typescript)
+            image="ghcr.io/christoffercarlsson/devcontainers/$image"
+            ;;
+        "")
+            image="ghcr.io/christoffercarlsson/devcontainers/base"
+            ;;
+        esac
+    fi
+
+    local authorized_keys
+    authorized_keys="$(ssh-add -L)" || error "failed to get identities from SSH agent"
+
+    start_container \
+        "$runtime" \
+        "$name" \
+        "$image" \
+        "$cpus" \
+        "$memory" \
+        "$workspace" \
+        "$authorized_keys" \
+        "$shell" || error "failed to start container $name"
+
+    write_ssh_config "$runtime" "$name" "$forward_agent"
+}
+
+write_ssh_config() {
+    local runtime="$1"
+    local name="$2"
+    local forward_agent="$3"
+    local file="$HOME/.ssh/devcontainers/$name.conf"
+    local directory="$(dirname "$file")"
+    local include_line="Include $directory/*.conf"
+    local ssh_config="$HOME/.ssh/config"
+    local host=""
+    local port="22"
+
+    case "$runtime" in
+    container)
+        host="$(get_container_ip "$name")" || error "failed to get IP address for container $name"
+        ;;
+    *)
+        host="127.0.0.1"
+        port="$(get_published_port "$runtime" "$name")" || error "failed to get published port for container $name"
+        ;;
+    esac
+
+    install -d -m 700 "$directory"
+
+    cat >"$file" <<EOF
+Host $name
+    HostName $host
+    Port $port
+    User dev
+    ForwardAgent $forward_agent
+    StrictHostKeyChecking no
+    UserKnownHostsFile /dev/null
+    LogLevel ERROR
+EOF
+
+    chmod 600 "$file"
+    touch "$ssh_config"
+    chmod 600 "$ssh_config"
+
+    if ! grep -qxF "$include_line" "$ssh_config"; then
+        printf '%s\n' "$include_line" | cat - "$ssh_config" >"$ssh_config.tmp" &&
+            mv "$ssh_config.tmp" "$ssh_config"
+    fi
+}
+
+detect_runtime() {
+    if [[ "$(uname -s)" == "Darwin" ]] && command -v container >/dev/null 2>&1; then
+        echo "container"
+    elif command -v podman >/dev/null 2>&1; then
+        echo "podman"
+    elif command -v docker >/dev/null 2>&1; then
+        echo "docker"
+    else
+        return 1
+    fi
+}
+
+build_image() {
+    local runtime="$1"
+    local image="$2"
+    local containerfile="$3"
+    local context="$4"
+    local cpus="$5"
+    local memory="$6"
+    local limits=()
+
+    case "$runtime" in
+    container) limits=(--cpus "$cpus" --memory "$memory") ;;
+    podman) limits=(--memory "$memory") ;;
+    esac
+
+    "$runtime" build \
+        --tag "$image" \
+        --file "$containerfile" \
+        "${limits[@]}" \
+        "$context"
+}
+
+start_container() {
+    local runtime="$1"
+    local name="$2"
+    local image="$3"
+    local cpus="$4"
+    local memory="$5"
+    local workspace="$6"
+    local authorized_keys="$7"
+    local shell="$8"
+    local runtime_flags=()
+
+    case "$runtime" in
+    container) ;;
+    *) runtime_flags=(--publish 127.0.0.1::22 --hostname "$name") ;;
+    esac
+
+    "$runtime" run -d --rm \
+        --name "$name" \
+        --cpus "$cpus" \
+        --memory "$memory" \
+        "${runtime_flags[@]}" \
+        --volume "$workspace:/workspace" \
+        --env "DEVCONTAINER_AUTHORIZED_KEYS=$authorized_keys" \
+        --env "DEVCONTAINER_SHELL=$shell" \
+        "$image"
+}
+
+get_container_ip() {
+    local name="$1"
+
+    container inspect "$name" |
+        jq -r '.[0].networks[0].ipv4Address | split("/")[0]'
+}
+
+get_published_port() {
+    local runtime="$1"
+    local name="$2"
+
+    "$runtime" inspect "$name" |
+        jq -r '.[0].NetworkSettings.Ports["22/tcp"][] | select(.HostIp == "127.0.0.1") | .HostPort'
+}
+
+start "$@"
