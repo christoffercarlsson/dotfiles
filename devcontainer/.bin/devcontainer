@@ -9,8 +9,8 @@ Usage: $0 [options] <workspace>
 Options:
   --name NAME       Container name (defaults to basename of workspace directory)
   --image IMAGE     Image to use (defaults to ghcr.io/christoffercarlsson/devcontainers/base)
-  --cpus N          Maximum number of CPUs the container may use (defaults to 2)
-  --memory SIZE     Memory limit for the container (defaults to 4G)
+  --cpus N          Maximum number of CPUs the container may use (defaults to 4)
+  --memory SIZE     Memory limit for the container (defaults to 8G)
   --shell SHELL     Login shell to use; bash, fish or zsh (defaults to zsh)
   --forward-agent   Forward the SSH agent into the container (disabled by default)
 
@@ -26,9 +26,9 @@ error() {
 
 start() {
     local args=()
-    local cpus="2"
+    local cpus="4"
     local image=""
-    local memory="4G"
+    local memory="8G"
     local name=""
     local forward_agent="no"
     local shell=""
