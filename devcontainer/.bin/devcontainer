@@ -243,7 +243,7 @@ get_container_ip() {
     local name="$1"
 
     container inspect "$name" |
-        jq -r '.[0].networks[0].ipv4Address | split("/")[0]'
+        jq -r '.[0] | (.status.networks? // .networks)[0].ipv4Address | split("/")[0]'
 }
 
 get_published_port() {
