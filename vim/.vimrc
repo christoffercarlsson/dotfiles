@@ -147,8 +147,8 @@ set pumheight=12 pumwidth=32
 if executable('rg')
     set grepprg=rg\ --vimgrep\ --smart-case\ --hidden\ --glob=!.git/
     set grepformat=%f:%l:%c:%m
-    command! -nargs=+ Rg execute 'silent grep! <args>' | redraw! | copen
-    noremap <leader>f :Rg 
+    command! -nargs=+ F execute 'silent grep! <args>' | redraw! | copen
+    noremap <leader>f :F 
 endif
 
 if executable('rg') && executable('fzf')
