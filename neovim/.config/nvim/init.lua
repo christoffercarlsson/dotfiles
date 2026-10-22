@@ -240,6 +240,7 @@ vim.lsp.config("rust-analyzer", {
             },
             check = {
                 command = "clippy",
+                extraArgs = { "--", "-W", "clippy::pedantic", "-W", "clippy::nursery" },
             },
         },
     },
