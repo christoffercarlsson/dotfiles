@@ -1,6 +1,7 @@
 tap "tillitis/tkey"
 brew "container"
 brew "fish"
+brew "libusb"
 brew "stow"
 brew "tkey-ssh-agent", restart_service: :changed
 brew "tkey-verification"
