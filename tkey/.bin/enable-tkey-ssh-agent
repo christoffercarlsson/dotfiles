@@ -4,15 +4,15 @@ set -eo pipefail
 
 write_tkey_config() {
     if ! command -v brew >/dev/null; then
-        echo "brew not found" >&2
-        exit 1
-    fi
-    if ! command -v tkey-ssh-agent >/dev/null; then
-        echo "tkey-ssh-agent not found" >&2
-        exit 1
+        error "brew not installed"
     fi
 
-    local socket="$(brew --prefix)/var/run/tkey-ssh-agent.sock"
+    if ! command -v tkey-ssh-agent >/dev/null; then
+        error "tkey-ssh-agent not installed"
+    fi
+
+    local socket
+    socket="$(brew --prefix)/var/run/tkey-ssh-agent.sock"
 
     local line="export SSH_AUTH_SOCK=\"$socket\""
 
@@ -22,14 +22,11 @@ write_tkey_config() {
     line="set -gx SSH_AUTH_SOCK \"$socket\""
 
     append_line "$line" ~/.fish.local
+}
 
-    echo "Configuration updated" >&2
-
-    if [[ ! -S $socket ]]; then
-        echo "The agent socket does not exist yet. Start the service with:" >&2
-        echo ""
-        echo "brew services start tkey-ssh-agent" >&2
-    fi
+error() {
+    echo "Error: $*" >&2
+    exit 1
 }
 
 append_line() {

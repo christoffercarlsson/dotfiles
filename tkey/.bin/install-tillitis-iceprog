@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+install_tillitis_iceprog() {
+    if ! command -v brew >/dev/null; then
+        error "brew not installed"
+    fi
+
+    if ! brew --prefix --installed libusb >/dev/null 2>&1; then
+        error "libusb not installed"
+    fi
+
+    local repository="https://github.com/tillitis/icestorm"
+    local branch="interfaces"
+    local program="tillitis-iceprog"
+    local destination="$HOME/.bin"
+
+    local workspace
+    workspace="$(mktemp -d)"
+
+    trap 'rm -rf "$workspace"' EXIT
+
+    git clone --quiet --depth 1 --branch "$branch" "$repository" "$workspace" ||
+        error "failed to clone $repository"
+
+    make -C "$workspace/iceprog" PROGRAM_PREFIX=tillitis- OS=macos >/dev/null ||
+        error "failed to build $program"
+
+    install -m 755 "$workspace/iceprog/$program" "$destination/$program"
+}
+
+error() {
+    echo "Error: $*" >&2
+    exit 1
+}
+
+install_tillitis_iceprog "$@"
