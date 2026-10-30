@@ -24,7 +24,7 @@ install_tillitis_iceprog() {
     git clone --quiet --depth 1 --branch "$branch" "$repository" "$workspace" ||
         error "failed to clone $repository"
 
-    make -C "$workspace/iceprog" PROGRAM_PREFIX=tillitis- OS=macos >/dev/null ||
+    make -C "$workspace/iceprog" PROGRAM_PREFIX=tillitis- OS=macos >/dev/null 2>&1 ||
         error "failed to build $program"
 
     install -m 755 "$workspace/iceprog/$program" "$destination/$program"
