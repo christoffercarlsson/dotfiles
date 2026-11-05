@@ -304,6 +304,15 @@ vim.lsp.config("ty", {
     root_markers = { "ty.toml", "pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", ".git" },
 })
 
+vim.lsp.config("verible", {
+    cmd = { "verible-verilog-ls" },
+    filetypes = { "systemverilog", "verilog" },
+    root_markers = { ".git", "verible.filelist" },
+    on_init = function(client)
+        client.server_capabilities.diagnosticProvider = nil
+    end,
+})
+
 vim.filetype.add({ extension = { vp = "verifpal" } })
 
 vim.lsp.config("verifpal", {
@@ -328,6 +337,7 @@ vim.lsp.enable("rumdl")
 vim.lsp.enable("rust-analyzer")
 vim.lsp.enable("tombi")
 vim.lsp.enable("ty")
+vim.lsp.enable("verible")
 vim.lsp.enable("verifpal")
 
 local local_config = vim.fn.expand("~/.nvim.local")
