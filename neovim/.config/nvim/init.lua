@@ -38,17 +38,25 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
         if not client then return end
 
-        if client:supports_method("textDocument/formatting") then
-            local lsp_formatting_augroup = vim.api.nvim_create_augroup(
-                "UserLspFormatting", { clear = true })
-            vim.api.nvim_create_autocmd("BufWritePre", {
-                group = lsp_formatting_augroup,
-                buffer = event.buf,
-                callback = function()
+        local lsp_formatting_augroup = vim.api.nvim_create_augroup(
+            "UserLspFormatting", { clear = false })
+        vim.api.nvim_clear_autocmds({
+            group = lsp_formatting_augroup,
+            buffer = event.buf,
+        })
+        vim.api.nvim_create_autocmd("BufWritePre", {
+            group = lsp_formatting_augroup,
+            buffer = event.buf,
+            callback = function()
+                local formatters = vim.lsp.get_clients({
+                    bufnr = event.buf,
+                    method = "textDocument/formatting",
+                })
+                if #formatters > 0 then
                     vim.lsp.buf.format({ bufnr = event.buf })
-                end,
-            })
-        end
+                end
+            end,
+        })
 
         if client:supports_method("textDocument/completion") then
             vim.lsp.completion.enable(true, client.id, event.buf,
@@ -223,6 +231,45 @@ vim.lsp.config("lua-language-server", {
     end,
 })
 
+vim.lsp.config("ruff", {
+    cmd = { "ruff", "server" },
+    filetypes = { "python" },
+    root_markers = { ".git", "pyproject.toml", "ruff.toml", ".ruff.toml" },
+    on_attach = function(client, bufnr)
+        client.server_capabilities.hoverProvider = false
+        vim.api.nvim_create_autocmd("BufWritePre", {
+            group = vim.api.nvim_create_augroup(
+                "UserRuffOrganizeImports" .. bufnr, { clear = true }),
+            buffer = bufnr,
+            callback = function()
+                local range_params = vim.lsp.util.make_range_params(0,
+                    client.offset_encoding)
+                local params = {
+                    textDocument = range_params.textDocument,
+                    range = range_params.range,
+                    context = {
+                        diagnostics = {},
+                        only = { "source.organizeImports.ruff" },
+                    },
+                }
+                local response = client:request_sync("textDocument/codeAction",
+                    params, 1000, bufnr)
+                for _, action in ipairs(response and response.result or {}) do
+                    if not action.edit then
+                        local resolved = client:request_sync(
+                            "codeAction/resolve", action, 1000, bufnr)
+                        action = resolved and resolved.result or action
+                    end
+                    if action.edit then
+                        vim.lsp.util.apply_workspace_edit(action.edit,
+                            client.offset_encoding)
+                    end
+                end
+            end,
+        })
+    end,
+})
+
 vim.lsp.config("rumdl", {
     cmd = { "rumdl", "server" },
     filetypes = { "markdown" },
@@ -240,7 +287,6 @@ vim.lsp.config("rust-analyzer", {
             },
             check = {
                 command = "clippy",
-                extraArgs = { "--", "-W", "clippy::pedantic", "-W", "clippy::nursery" },
             },
         },
     },
@@ -250,6 +296,12 @@ vim.lsp.config("tombi", {
     cmd = { "tombi", "lsp" },
     filetypes = { "toml" },
     root_markers = { ".git", "pyproject.toml", "tombi.toml" },
+})
+
+vim.lsp.config("ty", {
+    cmd = { "ty", "server" },
+    filetypes = { "python" },
+    root_markers = { "ty.toml", "pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", ".git" },
 })
 
 vim.filetype.add({ extension = { vp = "verifpal" } })
@@ -271,9 +323,11 @@ vim.lsp.enable("clangd")
 vim.lsp.enable("deno")
 vim.lsp.enable("gopls")
 vim.lsp.enable("lua-language-server")
+vim.lsp.enable("ruff")
 vim.lsp.enable("rumdl")
 vim.lsp.enable("rust-analyzer")
 vim.lsp.enable("tombi")
+vim.lsp.enable("ty")
 vim.lsp.enable("verifpal")
 
 local local_config = vim.fn.expand("~/.nvim.local")
