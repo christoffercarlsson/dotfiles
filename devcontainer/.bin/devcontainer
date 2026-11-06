@@ -12,6 +12,8 @@ Options:
   --cpus N          Maximum number of CPUs the container may use (defaults to 8)
   --memory SIZE     Memory limit for the container (defaults to 24G)
   --shell SHELL     Login shell to use; bash, fish or zsh (defaults to zsh)
+  --runtime RUNTIME Container runtime to use; container, podman or docker
+                    (detected automatically by default)
   --forward-agent   Forward the SSH agent into the container (disabled by default)
 
 Arguments:
@@ -32,6 +34,7 @@ start() {
     local name=""
     local forward_agent="no"
     local shell=""
+    local runtime=""
 
     while [[ $# -gt 0 ]]; do
         case "$1" in
@@ -57,6 +60,10 @@ start() {
             ;;
         -s | --shell)
             shell="$2"
+            shift 2
+            ;;
+        -r | --runtime)
+            runtime="$2"
             shift 2
             ;;
         -a | --forward-agent | --forward-ssh-agent | --ssh-agent)
@@ -86,8 +93,20 @@ start() {
 
     [[ -z "$name" ]] && name="$(basename "$workspace")"
 
-    local runtime
-    runtime="$(detect_runtime)" || error "no supported container runtime found (container, podman or docker)"
+    if [[ -n "$runtime" ]]; then
+        case "$runtime" in
+        container | podman | docker) ;;
+        *) error "unsupported container runtime: $runtime (expected container, podman or docker)" ;;
+        esac
+
+        command -v "$runtime" >/dev/null 2>&1 || error "container runtime not found: $runtime"
+    else
+        runtime="$(detect_runtime)" || error "no supported container runtime found (container, podman or docker)"
+    fi
+
+    if [[ "$runtime" == "container" && "$(uname -s)" != "Darwin" ]]; then
+        error "container runtime is only supported on macOS"
+    fi
 
     local devcontainer_dir="$workspace/.devcontainer"
     local containerfile=""
