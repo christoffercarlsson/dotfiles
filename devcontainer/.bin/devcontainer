@@ -110,7 +110,7 @@ start() {
             "$memory" || error "failed to build image from $containerfile"
     else
         case "$image" in
-        base | go | rust | c | typescript)
+        base | c | go | rust | tkey | typescript)
             image="ghcr.io/christoffercarlsson/devcontainers/$image"
             ;;
         "")
